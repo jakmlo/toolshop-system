@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @unique @default(uuid())
+  name      String    @unique
+  email     String    @unique
+  password  String
+  role      String?   @default("user")
+  photo     String?   @default("default.png")
+  verified  Boolean?  @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Tool {
+  ToolID       String          @id @unique @default(uuid())
+  Name         String
+  Description  String?
+  Category     Category     @relation(fields: [CategoryID], references: [CategoryID])
+  CategoryID   String
+  Availability Boolean
+  Rentals     Rental[]
+}
+
+model Category {
+  CategoryID String      @id @unique @default(uuid())
+  Name       String
+  Tools      Tool[]
+}
+
+model Customer {
+  CustomerID   String       @id @unique @default(uuid())
+  FirstName    String
+  LastName     String
+  Address      String
+  PhoneNumber  String
+  Rentals      Rental[]
+}
+
+model Rental {
+  RentalID     String       @id @unique @default(uuid())
+  Tool         Tool      @relation(fields: [ToolID], references: [ToolID])
+  ToolID       String
+  Customer     Customer  @relation(fields: [CustomerID], references: [CustomerID])
+  CustomerID   String
+  RentalDate   DateTime @default(now())
+  ReturnDate   DateTime?
+  Status       String? @default("active")
+}
+
+
+
