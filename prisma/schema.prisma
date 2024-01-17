@@ -1,8 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
 }
 
 datasource db {
@@ -11,52 +12,70 @@ datasource db {
 }
 
 model User {
-  id        String    @id @unique @default(uuid())
-  name      String    @unique
-  email     String    @unique
-  password  String
-  role      String?   @default("user")
-  photo     String?   @default("default.png")
-  verified  Boolean?  @default(false)
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  id             String        @id @unique @default(uuid())
+  name           String        @unique
+  email          String        @unique
+  password       String
+  role           String?       @default("user")
+  photo          String?       @default("default.png")
+  verified       Boolean?      @default(false)
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
+  organizationId String?
 }
 
 model Tool {
-  ToolID       String          @id @unique @default(uuid())
-  Name         String
-  Description  String?
-  Category     Category     @relation(fields: [CategoryID], references: [CategoryID])
-  CategoryID   String
-  Availability Boolean
-  Rentals     Rental[]
+  toolId        String       @id @unique @default(uuid())
+  name          String
+  catalogNumber String
+  description   String?
+  category      Category[]
+  categoryId    String
+  availability  Boolean
+  rentals       Rental[]
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
 }
 
 model Category {
-  CategoryID String      @id @unique @default(uuid())
-  Name       String
-  Tools      Tool[]
+  categoryId     String        @id @unique @default(uuid())
+  name           String
+  tools          Tool[]
+  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
+  organizationId String?
 }
 
-model Customer {
-  CustomerID   String       @id @unique @default(uuid())
-  FirstName    String
-  LastName     String
-  Address      String
-  PhoneNumber  String
-  Rentals      Rental[]
+model Contractor {
+  contractorId   String        @id @unique @default(uuid())
+  firstName      String
+  lastName       String
+  address        String
+  phoneNumber    String
+  rentals        Rental[]
+  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
+  organizationId String?
 }
 
 model Rental {
-  RentalID     String       @id @unique @default(uuid())
-  Tool         Tool      @relation(fields: [ToolID], references: [ToolID])
-  ToolID       String
-  Customer     Customer  @relation(fields: [CustomerID], references: [CustomerID])
-  CustomerID   String
-  RentalDate   DateTime @default(now())
-  ReturnDate   DateTime?
-  Status       String? @default("active")
+  rentalId     String       @id @unique @default(uuid())
+  tools        Tool[]
+  contractor   Contractor   @relation(fields: [contractorId], references: [contractorId])
+  contractorId String
+  rentalDate   DateTime     @default(now())
+  returnDate   DateTime
+  status       String       @default("pending")
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
 }
 
-
-
+model Organization {
+  organizationId   String @id @unique @default(uuid())
+  name String
+  users       User[]
+  contractors Contractor[]
+  tools       Tool[]
+  rentals     Rental[]
+  categories  Category[]
+  createdAt   DateTime     @default(now())
+}

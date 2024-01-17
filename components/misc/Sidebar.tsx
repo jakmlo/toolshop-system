@@ -3,17 +3,20 @@ import React, { useState } from "react";
 import {
   ArrowLeftIcon,
   VercelLogoIcon,
-  MagnifyingGlassIcon,
   DashboardIcon,
   ResetIcon,
   PaperPlaneIcon,
+  PersonIcon,
+  RocketIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 const menus = [
-  { title: "Dashboard", icon: <DashboardIcon />, href: "/" },
+  { title: "Pulpit", icon: <DashboardIcon />, href: "/" },
   { title: "Szybki zwrot", icon: <ResetIcon />, href: "/return" },
   { title: "Szybkie wydanie", icon: <PaperPlaneIcon />, href: "/rental" },
+  { title: "Kontrahenci", icon: <PersonIcon />, href: "/contractors" },
+  { title: "Sprzęt", icon: <RocketIcon />, href: "/equipment" },
 ];
 
 export default function Sidebar() {
@@ -21,9 +24,9 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`relative h-screen bg-gray-800 text-white ${
+      className={`relative bg-gray-800 text-white h-screen ${
         open ? "w-72" : "w-20"
-      }  py-8 px-4 shadow-lg rounded-r-lg duration-300`}
+      }  py-8 px-4 duration-300`}
     >
       <ArrowLeftIcon
         className={`bg-white text-black rounded-full h-6 w-6 cursor-pointer ${
@@ -41,20 +44,6 @@ export default function Sidebar() {
           Toolshop
         </h1>
       </Link>
-      <div
-        className={`flex items-center rounded-md bg-gray-600 ${
-          !open && "w-10 h-10 justify-center"
-        } p-2 mt-6`}
-      >
-        <MagnifyingGlassIcon />
-        <input
-          type="search"
-          placeholder="Search"
-          className={`text-base bg-transparent w-full text-white focus:outline-none px-2 ${
-            !open && "hidden"
-          }`}
-        />
-      </div>
 
       <ul className="pt-2">
         {menus.map((menu, index) => {

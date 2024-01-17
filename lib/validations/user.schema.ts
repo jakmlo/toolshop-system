@@ -47,5 +47,21 @@ export const LoginUserSchema = z.object({
     .min(8, "Password must be at least 8 characters"),
 });
 
+export const EditUserSchema = z.object({
+  name: z
+    .string({
+      required_error: "Nazwa użytkownika jest wymagana",
+    })
+    .min(2, "Nazwa użytkownika powinna składać się z minimum 2 znaków"),
+  email: z
+    .string({
+      required_error: "Adres e-mail jest wymagany",
+    })
+    .min(1, "Adres e-mail jest wymagany")
+    .email("Adres e-mail jest nieprawidłowy"),
+  photo: z.string().nullable(),
+});
+
 export type LoginUserInput = z.infer<typeof LoginUserSchema>;
 export type RegisterUserInput = z.infer<typeof RegisterUserSchema>;
+export type EditUserInput = z.infer<typeof EditUserSchema>;

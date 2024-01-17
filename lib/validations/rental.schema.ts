@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const RentalSchema = z.object({
+export const RentalInputSchema = z.object({
   contractor: z
     .string({
       required_error: "Contractor is required",
@@ -20,4 +20,15 @@ export const RentalSchema = z.object({
     .positive({ message: "Please input positive number" }),
 });
 
-export type RentalInput = z.infer<typeof RentalSchema>;
+export type RentalInput = z.infer<typeof RentalInputSchema>;
+
+export const RentalSchema = z.object({
+  rentalId: z.string(),
+  toolId: z.string(),
+  contractorId: z.string(),
+  rentalDate: z.date(),
+  returnDate: z.date(),
+  status: z.string(),
+});
+
+export type Rental = z.infer<typeof RentalSchema>;

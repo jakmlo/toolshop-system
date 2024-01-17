@@ -1,0 +1,84 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  name String [unique, not null]
+  email String [unique, not null]
+  password String [not null]
+  role String [default: 'user']
+  photo String [default: 'default.png']
+  verified Boolean [default: false]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  organization Organization
+  organizationId String
+}
+
+Table Tool {
+  toolId String [pk]
+  name String [not null]
+  catalogNumber String [not null]
+  description String
+  category Category [not null]
+  categoryId String [not null]
+  availability Boolean [not null]
+  rentals Rental [not null]
+  organizationId String
+  organization Organization
+}
+
+Table Category {
+  categoryId String [pk]
+  name String [not null]
+  tools Tool [not null]
+  organization Organization
+  organizationId String
+}
+
+Table Contractor {
+  contractorId String [pk]
+  firstName String [not null]
+  lastName String [not null]
+  address String [not null]
+  phoneNumber String [not null]
+  rentals Rental [not null]
+  organization Organization
+  organizationId String
+}
+
+Table Rental {
+  rentalId String [pk]
+  tools Tool [not null]
+  contractor Contractor [not null]
+  contractorId String [not null]
+  rentalDate DateTime [default: `now()`, not null]
+  returnDate DateTime [not null]
+  status String [not null, default: 'pending']
+  organizationId String
+  organization Organization
+}
+
+Table Organization {
+  organizationId String [pk]
+  name String [not null]
+  users User [not null]
+  contractors Contractor [not null]
+  tools Tool [not null]
+  rentals Rental [not null]
+  categories Category [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Ref: User.organizationId > Organization.organizationId
+
+Ref: Tool.organizationId > Organization.organizationId
+
+Ref: Category.organizationId > Organization.organizationId
+
+Ref: Contractor.organizationId > Organization.organizationId
+
+Ref: Rental.contractorId > Contractor.contractorId
+
+Ref: Rental.organizationId > Organization.organizationId

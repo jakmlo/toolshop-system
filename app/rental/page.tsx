@@ -1,31 +1,28 @@
-import { RentalForm } from "@/components/misc/RentalForm";
-import getContractors from "@/lib/data/getContractors";
-import getTools from "@/lib/data/getTools";
-import { columns } from "@/components/utils/rental-columns";
-import { DataTable } from "@/components/utils/data-table";
-import getRentals from "@/lib/data/getRentals";
-import { RentalInput } from "@/lib/validations/rental.schema";
-
-type ResponseType = {
-  data: any;
-  status: string;
-};
+import { RentalForm } from "@/components/misc/Rental/RentalForm";
+import { Rental } from "@/lib/validations/rental.schema";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function Rental() {
-  const responseContractors: ResponseType = await getContractors();
-  const { contractors } = responseContractors.data;
+  const session = await getServerSession(authOptions);
+  const contractorsData = await prisma.contractor.findMany({
+    where: {
+      organizationId: session?.user.organizationId,
+    },
+  });
+  const toolsData = await prisma.tool.findMany({
+    where: {
+      organizationId: session?.user.organizationId,
+    },
+    distinct: ["catalogNumber"],
+  });
 
-  const responseTools: ResponseType = await getTools();
-  const { tools } = responseTools.data;
-
-  const responseRentals: ResponseType = await getRentals();
-  const { rentals } = responseRentals.data;
-  const rentalsData = Object.keys(rentals).map((key) => rentals[key]);
+  const [contractors, tools] = await Promise.all([contractorsData, toolsData]);
 
   return (
-    <div className="container flex items-center flex-col justify-center">
+    <div className="container flex flex-row">
       <RentalForm contractors={contractors} tools={tools} />
-      <DataTable columns={columns} data={rentalsData} />
     </div>
   );
 }

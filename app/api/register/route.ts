@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as RegisterUserInput;
     const data = RegisterUserSchema.parse(body);
 
-    const hashedPassword = await hash(data.password, 12);
+    const hashedPassword = await hash(data.password, 10);
 
     const user = await prisma.user.create({
       data: {
