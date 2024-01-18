@@ -49,13 +49,19 @@ export default function RegisterForm() {
       if (res.status === 201) {
         router.push("/auth/login");
         toast({
-          title: "Success",
-          description: "User successfuly registered",
+          title: "Sukces",
+          description: "Pomyślnie zarejestrowano",
+        });
+      } else if (res.status === 409) {
+        toast({
+          variant: "destructive",
+          title: "Błąd",
+          description: "Użytkownik już istnieje",
         });
       } else {
         toast({
           variant: "destructive",
-          title: "Error",
+          title: "Błąd",
           description: res.statusText,
         });
       }
