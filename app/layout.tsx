@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Navbar from "@/components/misc/Navbar";
 import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Toolshop system",
@@ -19,13 +20,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user.id },
-    select: {
-      name: true,
-    },
-  });
+  let user;
+  if (session) {
+    user = await prisma.user.findUnique({
+      where: { id: session?.user.id },
+      select: {
+        name: true,
+      },
+    });
+  }
 
   return (
     <html lang="pl">
