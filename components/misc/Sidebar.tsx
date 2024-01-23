@@ -21,11 +21,10 @@ const menus = [
 ];
 
 export default function Sidebar() {
+  const [open, setOpen] = useState(true);
   const pathname = usePathname();
   if (pathname === "/workspaces" || pathname === "/workspaces/profile")
     return null;
-
-  const [open, setOpen] = useState(true);
 
   return (
     <div

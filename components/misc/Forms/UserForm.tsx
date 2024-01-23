@@ -23,12 +23,6 @@ type UserFormProps = {
     email: string;
     photo: string | null;
     accepted: boolean | null;
-    organization: {
-      organizationId: string;
-      name: string;
-      adminId: string | null;
-      createdAt: Date;
-    } | null;
   } | null;
 };
 

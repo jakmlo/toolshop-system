@@ -54,7 +54,7 @@ export default function EditEquipmentDialog({
       availability: tool?.availability,
       categoryId: tool?.categoryId,
     });
-  }, [tool, form.reset]);
+  }, [tool, form.formState.isSubmitSuccessful]);
 
   const onSubmit: SubmitHandler<ToolInput> = async (data) => {
     try {

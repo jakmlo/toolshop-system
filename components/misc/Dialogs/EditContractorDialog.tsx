@@ -56,7 +56,7 @@ export default function EditContractorDialog({
       address: contractor?.address,
       phoneNumber: contractor?.phoneNumber,
     });
-  }, [contractor, form.reset]);
+  }, [contractor, form.formState.isSubmitSuccessful]);
 
   const onSubmit: SubmitHandler<ContractorInput> = async (data) => {
     try {
