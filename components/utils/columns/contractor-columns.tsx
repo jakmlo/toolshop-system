@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Contractor } from "@/lib/validations/contractor.schema";
 import Link from "next/link";
+import { Contractor } from "@prisma/client";
 
 export const columns: ColumnDef<Contractor>[] = [
   {

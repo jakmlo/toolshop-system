@@ -3,17 +3,26 @@ import { Rental } from "@/lib/validations/rental.schema";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function Rental() {
   const session = await getServerSession(authOptions);
-  const contractorsData = await prisma.contractor.findMany({
+  const user = await prisma.user.findUnique({
     where: {
-      organizationId: session?.user.organizationId,
+      id: session?.user.id,
     },
   });
-  const toolsData = await prisma.tool.findMany({
+
+  if (!(user?.organizationId && user?.accepted)) redirect("/workspaces");
+
+  const contractorsData = prisma.contractor.findMany({
     where: {
-      organizationId: session?.user.organizationId,
+      organizationId: user?.organizationId,
+    },
+  });
+  const toolsData = prisma.tool.findMany({
+    where: {
+      organizationId: user?.organizationId,
     },
     distinct: ["catalogNumber"],
   });

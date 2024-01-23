@@ -18,6 +18,7 @@ model User {
   password       String
   role           String?       @default("user")
   photo          String?       @default("default.png")
+  accepted       Boolean?      @default(false)
   verified       Boolean?      @default(false)
   createdAt      DateTime?     @default(now())
   updatedAt      DateTime?     @updatedAt
@@ -50,6 +51,7 @@ model Contractor {
   contractorId   String        @id @unique @default(uuid())
   firstName      String
   lastName       String
+  taxIdNumber    String @default("NIP")
   address        String
   phoneNumber    String
   rentals        Rental[]
@@ -71,11 +73,13 @@ model Rental {
 
 model Organization {
   organizationId   String @id @unique @default(uuid())
-  name String
-  users       User[]
-  contractors Contractor[]
-  tools       Tool[]
-  rentals     Rental[]
-  categories  Category[]
-  createdAt   DateTime     @default(now())
+  name             String @unique
+  adminId          String? @unique
+  users            User[]
+  contractors      Contractor[]
+  tools            Tool[]
+  rentals          Rental[]
+  categories       Category[]
+  createdAt        DateTime     @default(now())
 }
+

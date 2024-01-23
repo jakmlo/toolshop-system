@@ -26,11 +26,17 @@ export const returnAction = async (data: ReturnInput) => {
 
     const session = await getServerSession(authOptions);
 
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
+      },
+    });
+
     if (rental.status === "pending") {
       await prisma.rental.update({
         where: {
           rentalId: rental.rentalId,
-          organizationId: session?.user.organizationId,
+          organizationId: user?.organizationId,
         },
         data: { status: "returned" },
       });
@@ -40,7 +46,7 @@ export const returnAction = async (data: ReturnInput) => {
           rentals: {
             some: {
               rentalId: rental.rentalId,
-              organizationId: session?.user.organizationId,
+              organizationId: user?.organizationId,
             },
           },
         },

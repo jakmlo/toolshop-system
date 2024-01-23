@@ -2,11 +2,12 @@ export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    "/",
-    "/rental",
-    "/return",
-    "/contractors",
-    "/equipment",
-    "/profile",
+    "/dashboard/:path*",
+    "/rental/:path*",
+    "/return/:path*",
+    "/contractors/:path*",
+    "/equipment/:path*",
+    "/profile/:path*",
+    "/workspaces/:path*",
   ],
 };

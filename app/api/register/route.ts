@@ -1,4 +1,6 @@
 import { getErrorResponse } from "@/lib/helpers";
+import { signJWT } from "@/lib/jwt";
+import { compileActivationTemplate, sendMail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
 import {
   RegisterUserInput,
@@ -23,6 +25,20 @@ export async function POST(req: NextRequest) {
         photo: data.photo,
       },
     });
+
+    if (user) {
+      const jwtUserId = signJWT({
+        id: user.id,
+      });
+      const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
+      const templateBody = compileActivationTemplate(user.name, activationUrl);
+
+      await sendMail({
+        to: user.email,
+        subject: "Activate Your Account",
+        body: templateBody,
+      });
+    }
 
     return new NextResponse(
       JSON.stringify({

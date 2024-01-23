@@ -9,6 +9,7 @@ Table User {
   password String [not null]
   role String [default: 'user']
   photo String [default: 'default.png']
+  accepted Boolean [default: false]
   verified Boolean [default: false]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -41,6 +42,7 @@ Table Contractor {
   contractorId String [pk]
   firstName String [not null]
   lastName String [not null]
+  taxIdNumber String [not null, default: 'NIP']
   address String [not null]
   phoneNumber String [not null]
   rentals Rental [not null]
@@ -62,7 +64,8 @@ Table Rental {
 
 Table Organization {
   organizationId String [pk]
-  name String [not null]
+  name String [unique, not null]
+  adminId String [unique]
   users User [not null]
   contractors Contractor [not null]
   tools Tool [not null]

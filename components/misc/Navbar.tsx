@@ -13,20 +13,81 @@ import { signOut } from "next-auth/react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "../ui/use-toast";
 
 type NavbarProps = {
-  name: string | undefined;
+  user: { name: string; role: string | null } | null | undefined;
 };
-
-export default function Navbar({ name }: NavbarProps) {
-  const router = useRouter();
+export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  if (pathname === "/workspaces" || pathname === "/workspaces/profile")
+    return (
+      <header className="flex items-center justify-between p-6 bg-white dark:bg-gray-800 shadow-md">
+        <Link
+          className="text-2xl font-bold text-gray-800 dark:text-gray-200"
+          href="/workspaces"
+        >
+          Toolshop System
+        </Link>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center w-full pr-16 gap-4 md:ml-auto md:gap-2 lg:gap-4">
+            <h2>{user?.name}</h2>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="h-12 w-12 cursor-pointer">
+                  <AvatarImage
+                    alt="Avatar"
+                    className="rounded-full border"
+                    height="32"
+                    src="/placeholder-user.jpg"
+                    width="32"
+                  />
+                  <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                  <span className="sr-only">
+                    Otwórz menu rozwijane użytkownika
+                  </span>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <Link href={"/workspaces/profile"}>
+                  <DropdownMenuItem>Profil</DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem>Ustawienia</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <button
+                    className="w-full text-left"
+                    onClick={async () => {
+                      const data = await signOut({
+                        redirect: false,
+                        callbackUrl: "/",
+                      });
+                      router.push(data.url);
+                      router.refresh();
+                      toast({
+                        title: "Wylogowano pomyślnie",
+                        description: "Nastąpiło przekierowanie",
+                        variant: "default",
+                      });
+                    }}
+                  >
+                    Wyloguj się
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </header>
+    );
 
   return (
     <nav className="bg-gray-700 p-4 flex-initial mx-6 my-4 rounded-md">
       <div className="container mx-auto flex items-center justify-between">
         <div className="text-white font-bold text-lg">
-          {pathname === "/"
+          {pathname === "/dashboard"
             ? "Pulpit"
             : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
         </div>
@@ -50,7 +111,7 @@ export default function Navbar({ name }: NavbarProps) {
             <div className="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Avatar className="h-9 w-9">
+                  <Avatar className="h-9 w-9 cursor-pointer">
                     <AvatarImage
                       alt="Avatar"
                       className="rounded-full border"
@@ -58,22 +119,39 @@ export default function Navbar({ name }: NavbarProps) {
                       src="/placeholder-user.jpg"
                       width="32"
                     />
-                    <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
                     <span className="sr-only">Toggle user menu</span>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Link href={"/profile"} className="w-full text-left">
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
+                  <Link href={"/profile"}>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
+                  {user?.role === "admin" && (
+                    <Link href={"/seats"}>
+                      <DropdownMenuItem>
+                        Zarządzaj użytkownikami
+                      </DropdownMenuItem>
+                    </Link>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <button
                       className="w-full text-left"
-                      onClick={() => signOut()}
+                      onClick={async () => {
+                        const data = await signOut({
+                          redirect: false,
+                          callbackUrl: "/",
+                        });
+                        router.push(data.url);
+                        router.refresh();
+                        toast({
+                          title: "Wylogowano pomyślnie",
+                          description: "Nastąpiło przekierowanie",
+                          variant: "default",
+                        });
+                      }}
                     >
                       Sign out
                     </button>

@@ -25,6 +25,10 @@ export const columns: ColumnDef<Tool>[] = [
     header: "Nazwa",
   },
   {
+    accessorKey: "catalogNumber",
+    header: "Numer katalogowy",
+  },
+  {
     accessorKey: "availability",
     header: "Dostępność",
   },

@@ -10,9 +10,10 @@ import {
   RocketIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menus = [
-  { title: "Pulpit", icon: <DashboardIcon />, href: "/" },
+  { title: "Pulpit", icon: <DashboardIcon />, href: "/dashboard" },
   { title: "Szybki zwrot", icon: <ResetIcon />, href: "/return" },
   { title: "Szybkie wydanie", icon: <PaperPlaneIcon />, href: "/rental" },
   { title: "Kontrahenci", icon: <PersonIcon />, href: "/contractors" },
@@ -20,6 +21,10 @@ const menus = [
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  if (pathname === "/workspaces" || pathname === "/workspaces/profile")
+    return null;
+
   const [open, setOpen] = useState(true);
 
   return (

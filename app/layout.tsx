@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Navbar from "@/components/misc/Navbar";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Toolshop system",
@@ -26,6 +25,7 @@ export default async function RootLayout({
       where: { id: session?.user.id },
       select: {
         name: true,
+        role: true,
       },
     });
   }
@@ -35,8 +35,8 @@ export default async function RootLayout({
       <body className="flex bg-slate-100 ">
         <NextAuthProvider>
           {!!session && <Sidebar />}
-          <div className="flex-col w-full">
-            {!!session && <Navbar name={user?.name} />}
+          <div className="flex-col w-full h-screen">
+            {!!session && <Navbar user={user} />}
             {children}
           </div>
           <Toaster />

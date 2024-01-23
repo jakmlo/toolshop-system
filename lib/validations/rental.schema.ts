@@ -3,21 +3,21 @@ import { z } from "zod";
 export const RentalInputSchema = z.object({
   contractor: z
     .string({
-      required_error: "Contractor is required",
+      required_error: "Kontrahent jest wymagany",
     })
-    .min(1, "Contractor is required"),
-  date: z.coerce.date({ required_error: "Please select a date" }),
+    .min(1, "Kontrahent jest wymagany"),
+  date: z.coerce.date({ required_error: "Proszę wybrać datę" }),
   tool: z
     .string({
-      required_error: "Tool is required",
+      required_error: "Proszę wybrać sprzęt",
     })
-    .min(1, "Tool is required"),
+    .min(1, "Proszę wybrać sprzęt"),
   quantity: z
     .number({
-      required_error: "Quantity is required",
-      invalid_type_error: "Quantity is required",
+      required_error: "Proszę wybrać ilość",
+      invalid_type_error: "Niepoprawna wartość",
     })
-    .positive({ message: "Please input positive number" }),
+    .positive({ message: "Proszę wpisać pozystywną wartość" }),
 });
 
 export type RentalInput = z.infer<typeof RentalInputSchema>;

@@ -54,6 +54,13 @@ export const createRental = async (rentalList: RentalInput[]) => {
     if (!areAllToolsAvailable) {
       return { status: 400, message: "Not enough tools" };
     }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
+      },
+    });
+
     await prisma.rental.create({
       data: {
         contractor: {
@@ -67,7 +74,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
         },
         organization: {
           connect: {
-            organizationId: session?.user.organizationId as string,
+            organizationId: user?.organizationId as string,
           },
         },
       },
@@ -78,7 +85,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
         toolId: {
           in: selectedToolIds,
         },
-        organizationId: session?.user.organizationId,
+        organizationId: user?.organizationId,
       },
       data: {
         availability: false,
@@ -119,9 +126,16 @@ export const deleteRental = async (id: string) => {
 
 export const checkToolStore = async (catalogNumber: string) => {
   const session = await getServerSession(authOptions);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session?.user.id,
+    },
+  });
+
   const count = await prisma.tool.count({
     where: {
-      organizationId: session?.user.organizationId,
+      organizationId: user?.organizationId,
       catalogNumber: catalogNumber,
       availability: true,
     },

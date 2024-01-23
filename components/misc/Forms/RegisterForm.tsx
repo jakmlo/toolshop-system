@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -49,14 +50,14 @@ export default function RegisterForm() {
       if (res.status === 201) {
         router.push("/auth/login");
         toast({
-          title: "Sukces",
-          description: "Pomyślnie zarejestrowano",
+          title: "Pomyślnie zarejestrowano",
+          description: "Sprawdź skrzynkę pocztowę i zweryfikuj konto",
         });
       } else if (res.status === 409) {
         toast({
           variant: "destructive",
-          title: "Błąd",
-          description: "Użytkownik już istnieje",
+          title: "Użytkownik już istnieje",
+          description: "Wprowadź inny adres e-mail",
         });
       } else {
         toast({
@@ -76,8 +77,14 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className=" w-1/4 h-[512px] flex flex-col justify-center ">
+      <div className="w-1/4 h-3/4 flex flex-col justify-center  bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-16 md:p-6">
         <h1 className="text-center font-semibold p-2">Zarejestruj się</h1>
+        <div className="flex flex-row gap-2 pt-4 pb-6 justify-center">
+          <p className="text-sm"> Masz już konto?</p>
+          <Link className="text-sm text-blue-600" href="/auth/login">
+            Zaloguj się
+          </Link>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -85,7 +92,7 @@ export default function RegisterForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Nazwa użytkownika</FormLabel>
                   <FormControl>
                     <Input placeholder="Name" {...field} />
                   </FormControl>
@@ -98,7 +105,7 @@ export default function RegisterForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Adres e-mail</FormLabel>
                   <FormControl>
                     <Input placeholder="admin@example.com" {...field} />
                   </FormControl>
@@ -111,7 +118,7 @@ export default function RegisterForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Hasło</FormLabel>
                   <FormControl>
                     <Input placeholder="●●●●●●●●" type="password" {...field} />
                   </FormControl>
@@ -124,7 +131,7 @@ export default function RegisterForm() {
               name="passwordConfirm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm password</FormLabel>
+                  <FormLabel>Potwierdź hasło</FormLabel>
                   <FormControl>
                     <Input placeholder="●●●●●●●●" type="password" {...field} />
                   </FormControl>
@@ -132,7 +139,9 @@ export default function RegisterForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button disabled={form.formState.isSubmitting} type="submit">
+              Zarejestruj się
+            </Button>
           </form>
         </Form>
       </div>

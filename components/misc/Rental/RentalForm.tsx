@@ -81,9 +81,16 @@ export function RentalForm({ contractors, tools }: RentalProps) {
   async function onSubmit(event: React.MouseEvent<HTMLButtonElement>) {
     try {
       event.preventDefault();
+      if (rentalList.length === 0) {
+        toast({
+          title: "Lista pozycji pusta",
+          description: "Dodaj co najmniej jedną pozycję",
+        });
+        return null;
+      }
       const res = await createRental(rentalList);
       if (res?.status === 201) {
-        router.push("/");
+        router.push("/dashboard");
         toast({
           title: "Success",
           description: res.message,
