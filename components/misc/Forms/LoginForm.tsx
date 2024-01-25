@@ -57,10 +57,9 @@ export default function LoginForm() {
       if (!res?.error) {
         router.push(callbackUrl);
         router.refresh();
-
         toast({
-          title: "Logowanie pomyślne",
-          description: "Nastąpiło przekierowanie",
+          title: "Zalogowano",
+          description: "Zaraz nastąpi przekierowanie",
           variant: "default",
         });
       } else if (res?.error === "CredentialsSignin") {
