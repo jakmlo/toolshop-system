@@ -59,7 +59,7 @@ export default function LoginForm() {
         router.refresh();
         toast({
           title: "Zalogowano",
-          description: "Zaraz nastąpi przekierowanie",
+          description: "",
           variant: "default",
         });
       } else if (res?.error === "CredentialsSignin") {

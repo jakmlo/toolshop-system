@@ -75,7 +75,7 @@ export const ResetPasswordSchema = z
       })
       .min(1, "Hasło jest wymagane")
       .min(8, "Hasło musi składać się z co najmniej 8 znaków")
-      .max(32, "Hasło nie może mieć więcej niż 32 znaki"),
+      .max(64, "Hasło nie może mieć więcej niż 64 znaków"),
     passwordConfirm: z
       .string({
         required_error: "Potwierdź hasło",
