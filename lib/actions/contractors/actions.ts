@@ -21,8 +21,16 @@ export async function addContractor(data: ContractorInput) {
       where: {
         id: session?.user.id,
       },
-      include: { organization: true },
     });
+
+    if (
+      user?.organizationId !== session?.user.organizationId ||
+      !user?.accepted
+    )
+      return { status: 401, message: "Not authorized" };
+
+    if (user?.role !== "admin")
+      return { status: 401, message: "Not authorized" };
 
     const contractor = await prisma.contractor.create({
       data: {
@@ -33,7 +41,7 @@ export async function addContractor(data: ContractorInput) {
         phoneNumber: data.phoneNumber,
         organization: {
           connect: {
-            organizationId: user?.organization?.organizationId,
+            organizationId: user?.organizationId as string,
           },
         },
       },
@@ -66,6 +74,23 @@ export async function addContractor(data: ContractorInput) {
 export const editContractor = async (data: ContractorInput, id: string) => {
   try {
     const contractorInput = ContractorInputSchema.parse(data);
+
+    const session = await getServerSession(authOptions);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
+      },
+    });
+
+    if (
+      user?.organizationId !== session?.user.organizationId ||
+      !user?.accepted
+    )
+      return { status: 401, message: "Not authorized" };
+
+    if (user?.role !== "admin")
+      return { status: 401, message: "Not authorized" };
 
     const contractor = await prisma.contractor.findUnique({
       where: { contractorId: id },

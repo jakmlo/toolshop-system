@@ -17,8 +17,16 @@ export async function addEquipment(data: ToolInput) {
       where: {
         id: session?.user.id,
       },
-      include: { organization: true },
     });
+
+    if (
+      user?.organizationId !== session?.user.organizationId ||
+      !user?.accepted
+    )
+      return { status: 401, message: "Not authorized" };
+
+    if (user?.role !== "admin")
+      return { status: 401, message: "Not authorized" };
 
     const tool = await prisma.tool.create({
       data: {
@@ -29,7 +37,7 @@ export async function addEquipment(data: ToolInput) {
         availability: true,
         organization: {
           connect: {
-            organizationId: user?.organization?.organizationId,
+            organizationId: user?.organizationId as string,
           },
         },
       },
@@ -70,6 +78,15 @@ export const editEquipment = async (data: ToolInput, id: string) => {
         id: session?.user.id,
       },
     });
+
+    if (
+      user?.organizationId !== session?.user.organizationId ||
+      !user?.accepted
+    )
+      return { status: 401, message: "Not authorized" };
+
+    if (user?.role !== "admin")
+      return { status: 401, message: "Not authorized" };
 
     const tool = await prisma.tool.findUnique({
       where: { toolId: id, organizationId: user?.organizationId },
