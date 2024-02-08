@@ -65,8 +65,8 @@ export default function UserForm({ user }: UserFormProps) {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-        <h1 className="font-semibold p-2 text-left">
+      <div className="rounded-lg bg-white p-4 shadow-md dark:bg-gray-800 md:p-6">
+        <h1 className="p-2 text-left font-semibold">
           Informacje o użytkowniku
         </h1>
         <Form {...form}>

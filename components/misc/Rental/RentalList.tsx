@@ -12,11 +12,11 @@ export default function RentalList({
   catalogNumberCount,
 }: RentalListProps) {
   return (
-    <div className="bg-slate-200 w-4/5 mx-16 p-8 rounded-md">
+    <div className="mx-16 w-4/5 rounded-md bg-slate-200 p-8">
       <ul>
         {Object.keys(catalogNumberCount).map((catalogNumber, index) => {
           const matchedTool = tools.find(
-            (tool) => tool.catalogNumber === catalogNumber
+            (tool) => tool.catalogNumber === catalogNumber,
           );
           const occurrences = catalogNumberCount[catalogNumber];
 

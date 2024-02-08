@@ -54,8 +54,8 @@ export default function AddContractorForm() {
     }
   };
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg w-1/3 shadow-md p-4 md:p-6">
-      <h1 className="font-semibold p-2 text-left">Dodawanie kontrahenta</h1>
+    <div className="w-1/3 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800 md:p-6">
+      <h1 className="p-2 text-left font-semibold">Dodawanie kontrahenta</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField

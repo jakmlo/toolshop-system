@@ -28,22 +28,22 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`relative bg-gray-800 text-white h-screen ${
+      className={`relative h-screen bg-gray-800 text-white ${
         open ? "w-72" : "w-20"
-      }  py-8 px-4 duration-300`}
+      }  px-4 py-8 duration-300`}
     >
       <ArrowLeftIcon
-        className={`bg-white text-black rounded-full h-6 w-6 cursor-pointer ${
+        className={`h-6 w-6 cursor-pointer rounded-full bg-white text-black ${
           !open && "rotate-180"
-        } duration-300 absolute -right-3 `}
+        } absolute -right-3 duration-300 `}
         onClick={() => setOpen(!open)}
       />
       <Link href={"/"} className="inline-flex">
-        <VercelLogoIcon className="fill-slate-700 mr-3 stroke-2 rounded-sm w-6 h-6 float-left block" />
+        <VercelLogoIcon className="float-left mr-3 block h-6 w-6 rounded-sm fill-slate-700 stroke-2" />
         <h1
           className={`${
             !open && "scale-0"
-          } font-semibold origin-left duration-300`}
+          } origin-left font-semibold duration-300`}
         >
           Toolshop
         </h1>
@@ -54,13 +54,13 @@ export default function Sidebar() {
           return (
             <Link href={menu.href} key={index}>
               <li
-                className={`text-gray-200 text-sm flex items-center gap-x-4 cursor-pointer p-2 ${
-                  !open && "w-10 h-10 justify-center"
-                } hover:bg-gray-500 rounded-md mt-2`}
+                className={`flex cursor-pointer items-center gap-x-4 p-2 text-sm text-gray-200 ${
+                  !open && "h-10 w-10 justify-center"
+                } mt-2 rounded-md hover:bg-gray-500`}
               >
-                <span className="block float-left">{menu.icon}</span>
+                <span className="float-left block">{menu.icon}</span>
                 <span
-                  className={`text-base font-medium flex-1 ${
+                  className={`flex-1 text-base font-medium ${
                     !open && "hidden"
                   } whitespace-nowrap`}
                 >

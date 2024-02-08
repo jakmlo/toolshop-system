@@ -62,7 +62,7 @@ export default function EditContractorDialog({
     try {
       const res = await editContractor(
         data,
-        contractor?.contractorId as string
+        contractor?.contractorId as string,
       );
       if (res?.status === 204) {
         toast({

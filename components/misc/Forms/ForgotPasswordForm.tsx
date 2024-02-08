@@ -52,9 +52,9 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <div className="w-1/4 h-[512px] flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-      <h1 className="text-2xl py-8 text-center">Zapomniałem hasła</h1>
-      <div className="flex flex-row gap-2 pt-4 pb-6 justify-center">
+    <div className="flex w-full flex-col justify-center rounded-lg p-4 dark:bg-gray-800 md:h-[512px] md:w-1/4 md:bg-white md:p-6 md:shadow-md">
+      <h1 className="py-8 text-center text-2xl">Zapomniałem hasła</h1>
+      <div className="flex flex-row justify-center gap-2 pb-6 pt-4">
         <Link className="text-sm text-blue-600" href="/auth/login">
           Powrót do strony logowania
         </Link>
@@ -74,7 +74,11 @@ export default function ForgotPasswordForm() {
               </FormItem>
             )}
           />
-          <Button disabled={form.formState.isSubmitting} type="submit">
+          <Button
+            disabled={form.formState.isSubmitting}
+            type="submit"
+            className="w-full"
+          >
             Wyślij prośbę o zmianę hasła
           </Button>
         </form>

@@ -78,8 +78,8 @@ export default function AddEquipmentForm({
     }
   };
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg w-1/3 shadow-md p-4 md:p-6">
-      <h1 className="font-semibold p-2 text-left">Dodawanie sprzętu</h1>
+    <div className="w-1/3 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800 md:p-6">
+      <h1 className="p-2 text-left font-semibold">Dodawanie sprzętu</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
@@ -135,12 +135,12 @@ export default function AddEquipmentForm({
                         role="combobox"
                         className={cn(
                           "w-[240px] justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? transformedCategories.find(
-                              (category) => category.value === field.value
+                              (category) => category.value === field.value,
                             )?.label
                           : "Wybierz kategorię"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -167,7 +167,7 @@ export default function AddEquipmentForm({
                                 "mr-2 h-4 w-4",
                                 category.value === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                             {category.label}

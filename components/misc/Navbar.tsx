@@ -24,7 +24,7 @@ export default function Navbar({ user }: NavbarProps) {
 
   if (pathname === "/workspaces" || pathname === "/workspaces/profile")
     return (
-      <header className="flex items-center justify-between p-6 bg-white dark:bg-gray-800 shadow-md">
+      <header className="flex items-center justify-between bg-white p-6 shadow-md dark:bg-gray-800">
         <Link
           className="text-2xl font-bold text-gray-800 dark:text-gray-200"
           href="/workspaces"
@@ -32,7 +32,7 @@ export default function Navbar({ user }: NavbarProps) {
           Toolshop System
         </Link>
         <div className="flex items-center space-x-4">
-          <div className="flex items-center w-full pr-16 gap-4 md:ml-auto md:gap-2 lg:gap-4">
+          <div className="flex w-full items-center gap-4 pr-16 md:ml-auto md:gap-2 lg:gap-4">
             <h2>{user?.name}</h2>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -84,21 +84,21 @@ export default function Navbar({ user }: NavbarProps) {
     );
 
   return (
-    <nav className="bg-gray-700 p-4 flex-initial mx-6 my-4 rounded-md">
+    <nav className="mx-6 my-4 flex-initial rounded-md bg-gray-700 p-4">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="text-white font-bold text-lg">
+        <div className="text-lg font-bold text-white">
           {pathname === "/dashboard"
             ? "Pulpit"
             : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
         </div>
         <ul className="flex space-x-4">
           <li>
-            <div className="flex items-center rounded-md bg-gray-600 justify-center p-2">
+            <div className="flex items-center justify-center rounded-md bg-gray-600 p-2">
               <MagnifyingGlassIcon className="text-white" />
               <input
                 type="search"
                 placeholder="Search..."
-                className="text-base bg-transparent w-full text-white focus:outline-none px-2"
+                className="w-full bg-transparent px-2 text-base text-white focus:outline-none"
               />
             </div>
           </li>
@@ -108,7 +108,7 @@ export default function Navbar({ user }: NavbarProps) {
             </a>
           </li>
           <li>
-            <div className="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
+            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="h-9 w-9 cursor-pointer">

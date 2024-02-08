@@ -90,12 +90,12 @@ export function ReturnForm({ rentals }: ReturnProps) {
                         role="combobox"
                         className={cn(
                           "w-[240px] justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? transformedRentals.find(
-                              (rental) => rental.value === field.value
+                              (rental) => rental.value === field.value,
                             )?.label
                           : "Select rental"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -122,7 +122,7 @@ export function ReturnForm({ rentals }: ReturnProps) {
                                 "mr-2 h-4 w-4",
                                 rental.value === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                             {rental.label}

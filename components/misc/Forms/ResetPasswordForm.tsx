@@ -59,9 +59,9 @@ export default function ResetPasswordForm({
   };
 
   return (
-    <div className="w-1/4 h-[512px] flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-      <h1 className="text-2xl py-8 text-center">Resetowanie hasła</h1>
-      <div className="flex flex-row gap-2 pt-4 pb-6 justify-center">
+    <div className="flex h-[512px] w-1/4 flex-col justify-center rounded-lg bg-white p-4 shadow-md dark:bg-gray-800 md:p-6">
+      <h1 className="py-8 text-center text-2xl">Resetowanie hasła</h1>
+      <div className="flex flex-row justify-center gap-2 pb-6 pt-4">
         <Link className="text-sm text-blue-600" href="/auth/login">
           Powrót do strony logowania
         </Link>

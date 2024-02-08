@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Spinner from "../Spinners/Spinner";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -77,9 +78,9 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className="w-1/4 h-3/4 flex flex-col justify-center  bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-16 md:p-6">
-        <h1 className="text-center font-semibold p-2">Zarejestruj się</h1>
-        <div className="flex flex-row gap-2 pt-4 pb-6 justify-center">
+      <div className="mt-16 flex w-full flex-col justify-center rounded-lg  p-4 dark:bg-gray-800 md:h-3/4 md:w-1/4 md:bg-white md:p-6 md:shadow-md">
+        <h1 className="p-2 text-center font-semibold">Zarejestruj się</h1>
+        <div className="flex flex-row justify-center gap-2 pb-6 pt-4">
           <p className="text-sm"> Masz już konto?</p>
           <Link className="text-sm text-blue-600" href="/auth/login">
             Zaloguj się
@@ -139,8 +140,16 @@ export default function RegisterForm() {
                 </FormItem>
               )}
             />
-            <Button disabled={form.formState.isSubmitting} type="submit">
-              Zarejestruj się
+            <Button
+              disabled={form.formState.isSubmitting}
+              type="submit"
+              className="w-full"
+            >
+              {form.formState.isSubmitting ? (
+                <Spinner />
+              ) : (
+                <p>Zarejestruj się</p>
+              )}
             </Button>
           </form>
         </Form>

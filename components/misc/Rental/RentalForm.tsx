@@ -177,12 +177,12 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                         disabled={contractorAdded}
                         className={cn(
                           "w-[240px] justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? transformedContractors.find(
-                              (contractor) => contractor.value === field.value
+                              (contractor) => contractor.value === field.value,
                             )?.label
                           : "Select contractor"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -210,7 +210,7 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                                 "mr-2 h-4 w-4",
                                 contractor.value === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                             {contractor.label}
@@ -240,12 +240,12 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                             role="combobox"
                             className={cn(
                               "w-[240px] justify-between",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value
                               ? transformedTools.find(
-                                  (tool) => tool.value === field.value
+                                  (tool) => tool.value === field.value,
                                 )?.label
                               : "Select tool"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -272,7 +272,7 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                                     "mr-2 h-4 w-4",
                                     tool.value === field.value
                                       ? "opacity-100"
-                                      : "opacity-0"
+                                      : "opacity-0",
                                   )}
                                 />
                                 {tool.label}
@@ -299,7 +299,7 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value ? (
@@ -319,7 +319,7 @@ export function RentalForm({ contractors, tools }: RentalProps) {
                           disabled={(date) =>
                             date <
                             new Date(
-                              new Date().setDate(new Date().getDate() - 1)
+                              new Date().setDate(new Date().getDate() - 1),
                             )
                           }
                           initialFocus

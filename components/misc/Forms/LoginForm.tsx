@@ -18,10 +18,13 @@ import { useToast } from "../../ui/use-toast";
 import { useSearchParams } from "next/navigation";
 import { checkUserVerified } from "@/lib/actions/login/actions";
 import Link from "next/link";
+import { useState } from "react";
+import Spinner from "../Spinners/Spinner";
 
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const [success, setSuccess] = useState(false);
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/workspaces";
@@ -45,7 +48,6 @@ export default function LoginForm() {
             "Na podany adres e-mail został wysłany link weryfikujący",
           variant: "default",
         });
-        form.reset();
         return null;
       }
       const res = await signIn("credentials", {
@@ -55,6 +57,7 @@ export default function LoginForm() {
         callbackUrl,
       });
       if (!res?.error) {
+        setSuccess(true);
         router.push(callbackUrl);
         router.refresh();
         toast({
@@ -86,16 +89,19 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="w-1/4 h-[512px] flex flex-col  justify-center bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-16 md:p-6">
-        <h1 className="text-center font-semibold p-2">Zaloguj się</h1>
-        <div className="flex flex-row gap-2 pt-4 pb-6 justify-center">
+      <div className="mt-16 flex w-full flex-col justify-center  rounded-lg p-4 dark:bg-gray-800 md:h-[512px] md:w-1/4 md:bg-white md:p-6 md:shadow-md">
+        <h1 className="p-2 text-center font-semibold">Zaloguj się</h1>
+        <div className="flex flex-row justify-center gap-2 pb-6 pt-4">
           <p className="text-sm">Nie masz jeszcze konta?</p>
           <Link className="text-sm text-blue-600" href="/auth/register">
             Utwórz konto
           </Link>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 px-4 md:px-0"
+          >
             <FormField
               control={form.control}
               name="email"
@@ -116,23 +122,37 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Hasło</FormLabel>
                   <FormControl>
-                    <Input placeholder="●●●●●●●●" type="password" {...field} />
+                    <Input
+                      placeholder="●●●●●●●●●●●●"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button disabled={form.formState.isSubmitting} type="submit">
-              Zaloguj się
-            </Button>
-            <Link
-              className="text-sm text-blue-600 ml-16 w-fit"
-              href="/password/reset"
+            <Button
+              disabled={form.formState.isSubmitting || success}
+              type="submit"
+              className="w-full gap-4"
             >
-              Zapomniałem hasła
-            </Link>
+              {form.formState.isSubmitting || success ? (
+                <>
+                  <Spinner />
+                </>
+              ) : (
+                <p>Zaloguj się</p>
+              )}
+            </Button>
           </form>
         </Form>
+        <Link
+          className="w-fit p-4 text-sm text-blue-600 md:px-0 md:py-4"
+          href="/password/reset"
+        >
+          Zapomniałem hasła
+        </Link>
       </div>
     </>
   );
