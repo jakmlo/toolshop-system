@@ -1,7 +1,9 @@
 import { getErrorResponse } from "@/lib/helpers";
 import { signJWT } from "@/lib/jwt";
-import { compileActivationTemplate, sendMail } from "@/lib/mail";
+import { sendMail } from "@/lib/mail";
+import ActivationTemplate from "@/lib/emailTemplates/activation";
 import { prisma } from "@/lib/prisma";
+import { render } from "@react-email/render";
 import {
   RegisterUserInput,
   RegisterUserSchema,
@@ -31,13 +33,20 @@ export async function POST(req: NextRequest) {
         id: user.id,
       });
       const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
-      const templateBody = compileActivationTemplate(user.name, activationUrl);
 
-      await sendMail({
-        to: user.email,
-        subject: "Activate Your Account",
-        body: templateBody,
-      });
+      try {
+        const templateBody = render(
+          ActivationTemplate({ name: user.name, url: activationUrl }),
+        );
+
+        await sendMail({
+          to: user.email,
+          subject: "Aktywacja konta",
+          body: templateBody,
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
     }
 
     return new NextResponse(
@@ -48,7 +57,7 @@ export async function POST(req: NextRequest) {
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error: any) {
     if (error instanceof ZodError) {
@@ -58,7 +67,7 @@ export async function POST(req: NextRequest) {
     if (error.code === "P2002") {
       return getErrorResponse(
         409,
-        `User with that ${error.meta.target.at(0)} already exists`
+        `User with that ${error.meta.target.at(0)} already exists`,
       );
     }
 

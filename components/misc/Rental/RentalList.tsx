@@ -25,7 +25,7 @@ export default function RentalList({
               <p>
                 {matchedTool
                   ? `${matchedTool.name} ${catalogNumber}`
-                  : "Tool not found"}{" "}
+                  : "Tool not found"}
                 ({occurrences})
               </p>
             </li>

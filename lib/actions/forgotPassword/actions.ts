@@ -1,7 +1,7 @@
 "use server";
 
 import { signJWT, verifyJWT } from "@/lib/jwt";
-import { compileResetPasswordTemplate, sendMail } from "@/lib/mail";
+import { sendMail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
 import {
   ForgotPasswordInput,
@@ -9,8 +9,9 @@ import {
   ResetPasswordInput,
   ResetPasswordSchema,
 } from "@/lib/validations/user.schema";
+import { render } from "@react-email/render";
 import { hash } from "bcrypt";
-
+import ResetPasswordTemplate from "@/lib/emailTemplates/resetPassword";
 import { ZodError } from "zod";
 
 export async function forgotPassword(data: ForgotPasswordInput) {
@@ -35,13 +36,16 @@ export async function forgotPassword(data: ForgotPasswordInput) {
     });
     const resetPasswordUrl = `${process.env.NEXTAUTH_URL}/auth/password/reset/${jwtUserId}`;
 
-    const body = compileResetPasswordTemplate(user.name, resetPasswordUrl);
+    const templateBody = render(
+      ResetPasswordTemplate({ name: user.name, url: resetPasswordUrl }),
+    );
     await sendMail({
       to: user.email,
       subject: "Zmiana hasła",
-      body: body,
+      body: templateBody,
     });
   } catch (error: any) {
+    console.log(error)
     if (error instanceof ZodError) {
       return { status: 400, message: "Failed validation" };
     }
@@ -53,7 +57,7 @@ export async function forgotPassword(data: ForgotPasswordInput) {
 
 export const resetPassword = async (
   jwtUserId: string,
-  data: ResetPasswordInput
+  data: ResetPasswordInput,
 ) => {
   try {
     ResetPasswordSchema.parse(data);

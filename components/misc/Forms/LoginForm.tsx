@@ -20,11 +20,13 @@ import { checkUserVerified } from "@/lib/actions/login/actions";
 import Link from "next/link";
 import { useState } from "react";
 import Spinner from "../Spinners/Spinner";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [success, setSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/workspaces";
@@ -122,11 +124,25 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Hasło</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="●●●●●●●●●●●●"
-                      type="password"
-                      {...field}
-                    />
+                    <div className="relative flex flex-row items-center">
+                      <Input
+                        className="pr-8"
+                        placeholder="●●●●●●●●●●●●"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <span
+                        aria-label="Show or hide password"
+                        onClick={() =>
+                          setShowPassword(
+                            (prevShowPassword) => !prevShowPassword,
+                          )
+                        }
+                        className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center pr-2"
+                      >
+                        {showPassword ? <Eye /> : <EyeOff />}
+                      </span>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
