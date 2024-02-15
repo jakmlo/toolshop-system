@@ -20,11 +20,12 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
         };
       }
-      if (user) token.user = user as User;
-      return token;
+      // if (user) token.user = user as User;
+      // return token;
+      return { ...token, ...user };
     },
     async session({ token, session }) {
-      session.user = token.user;
+      session.user = token as any;
       return session;
     },
   },

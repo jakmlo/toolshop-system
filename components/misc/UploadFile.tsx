@@ -12,6 +12,7 @@ export default function UploadFile() {
   const [progress, setProgress] = React.useState(0);
   const { edgestore } = useEdgeStore();
   const { data: session, update } = useSession();
+
   return (
     <div>
       <SingleImageDropzone
@@ -37,7 +38,7 @@ export default function UploadFile() {
                 setProgress(progress);
               },
               options: {
-                replaceTargetUrl: session?.user.photo as string,
+                replaceTargetUrl: session?.user.photo as string | undefined,
               },
             });
             const resAction = await addUserImage(res.url, session?.user.id);
@@ -46,7 +47,10 @@ export default function UploadFile() {
                 title: "Avatar dodany",
                 variant: "default",
               });
-              update({ ...session, user: { ...session?.user, photo: res.url } });
+              update({
+                ...session,
+                user: { ...session?.user, photo: res.url },
+              });
             } else {
               toast({
                 variant: "destructive",
