@@ -13,7 +13,13 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
       if (user) token.user = user as User;
       return token;
     },

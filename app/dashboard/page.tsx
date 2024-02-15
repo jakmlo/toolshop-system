@@ -39,7 +39,7 @@ export default async function Home() {
   });
 
   return (
-    <main className="container flex items-center flex-col justify-center">
+    <main className="container flex flex-col items-center justify-center">
       <DataTable columns={columns} data={rentals} />
     </main>
   );

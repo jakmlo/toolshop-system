@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const cspHeader = `
-    default-src 'self';
+    default-src 'self' files.edgestore.dev edge-store.s3.us-east-1.amazonaws.com;
     script-src 'self' 'unsafe-eval' 'unsafe-inline';
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;

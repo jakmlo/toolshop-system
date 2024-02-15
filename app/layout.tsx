@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Navbar from "@/components/misc/Navbar";
 import { prisma } from "@/lib/prisma";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 export const metadata: Metadata = {
   title: "Toolshop system",
@@ -34,12 +35,14 @@ export default async function RootLayout({
     <html lang="pl">
       <body className="flex bg-slate-100 ">
         <NextAuthProvider>
-          {!!session && <Sidebar />}
-          <div className="flex-col w-full h-screen">
-            {!!session && <Navbar user={user} />}
-            {children}
-          </div>
-          <Toaster />
+          <EdgeStoreProvider>
+            {!!session && <Sidebar />}
+            <div className="h-screen w-full flex-col">
+              {!!session && <Navbar user={user} />}
+              {children}
+            </div>
+            <Toaster />
+          </EdgeStoreProvider>
         </NextAuthProvider>
       </body>
     </html>

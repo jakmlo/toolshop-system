@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { editUser } from "@/lib/actions/profile/actions";
+import UploadFile from "../UploadFile";
 
 type UserFormProps = {
   user: {
@@ -69,6 +70,7 @@ export default function UserForm({ user }: UserFormProps) {
         <h1 className="p-2 text-left font-semibold">
           Informacje o użytkowniku
         </h1>
+        <UploadFile />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,6 +21,7 @@ type NavbarProps = {
 export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { data: session } = useSession();
 
   if (pathname === "/workspaces" || pathname === "/workspaces/profile")
     return (
@@ -41,7 +42,7 @@ export default function Navbar({ user }: NavbarProps) {
                     alt="Avatar"
                     className="rounded-full border"
                     height="32"
-                    src="/placeholder-user.jpg"
+                    src={session?.user.photo as string}
                     width="32"
                   />
                   <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
@@ -114,9 +115,9 @@ export default function Navbar({ user }: NavbarProps) {
                   <Avatar className="h-9 w-9 cursor-pointer">
                     <AvatarImage
                       alt="Avatar"
-                      className="rounded-full border"
+                      className="rounded-full"
                       height="32"
-                      src="/placeholder-user.jpg"
+                      src={session?.user.photo as string}
                       width="32"
                     />
                     <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
