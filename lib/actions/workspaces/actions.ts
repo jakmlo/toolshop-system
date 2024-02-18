@@ -56,6 +56,7 @@ export async function createOrganization(data: CreateOrganizationInput) {
     return {
       status: 200,
       message: "Organization created",
+      organizationId: organization.organizationId,
     };
   } catch (error: any) {
     if (error instanceof ZodError) {
@@ -112,6 +113,7 @@ export async function joinOrganization(data: JoinOrganizationInput) {
     return {
       status: 200,
       message: "Sent request",
+      organizationId: organization.organizationId,
     };
   } catch (error: any) {
     if (error instanceof ZodError) {

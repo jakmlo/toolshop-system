@@ -13,6 +13,7 @@ export default function UploadFile() {
   const { edgestore } = useEdgeStore();
   const { data: session, update } = useSession();
 
+  console.log(session?.user);
   return (
     <div>
       <SingleImageDropzone

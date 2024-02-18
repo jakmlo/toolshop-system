@@ -26,7 +26,7 @@ export const editUser = async (data: EditUserInput, userId: string) => {
       data: {
         name: userInput.name,
         email: userInput.email.toLowerCase(),
-        photo: userInput.photo,
+        photo: userInput.photo ?? undefined,
       },
     });
     revalidatePath("/profile");

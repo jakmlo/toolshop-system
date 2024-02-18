@@ -26,6 +26,7 @@ import {
   CreateOrganizationSchema,
 } from "@/lib/validations/organization.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export function CreateOrganizationDialog({
@@ -33,8 +34,12 @@ export function CreateOrganizationDialog({
 }: {
   children: React.ReactNode;
 }) {
+  const { data: session, update } = useSession();
   const form = useForm<CreateOrganizationInput>({
     resolver: zodResolver(CreateOrganizationSchema),
+    defaultValues: {
+      name: ""
+    }
   });
 
   const onSubmit: SubmitHandler<CreateOrganizationInput> = async (data) => {
@@ -51,6 +56,10 @@ export function CreateOrganizationDialog({
           title: "Sukces",
           description: "Pomyślnie utworzono organizację",
           variant: "default",
+        });
+        update({
+          ...session,
+          user: { ...session?.user, organizationId: res?.organizationId },
         });
         form.reset();
       }
@@ -69,7 +78,7 @@ export function CreateOrganizationDialog({
         <DialogHeader>
           <DialogTitle>Stwórz obszar roboczy</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            Wpisz nazwę organizacji. Naciśnij przycisk, gdy będziesz gotowy.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

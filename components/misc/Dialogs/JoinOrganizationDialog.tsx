@@ -25,10 +25,12 @@ import {
   JoinOrganizationSchema,
 } from "@/lib/validations/organization.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export function JoinOrganizationDialog() {
+  const { data: session, update } = useSession();
   const [open, setOpen] = useState(false);
   const form = useForm<JoinOrganizationInput>({
     resolver: zodResolver(JoinOrganizationSchema),
@@ -52,6 +54,10 @@ export function JoinOrganizationDialog() {
           title: "Sukces",
           description: "Pomyślnie wysłano prośbę o dołączenie do organizacji",
           variant: "default",
+        });
+        update({
+          ...session,
+          user: { ...session?.user, organizationId: res?.organizationId },
         });
         setOpen(false);
       }

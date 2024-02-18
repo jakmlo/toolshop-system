@@ -16,12 +16,12 @@ model User {
   name           String        @unique
   email          String        @unique
   password       String
-  role           String?       @default("user")
-  photo          String?       @default("default.png")
-  accepted       Boolean?      @default(false)
-  verified       Boolean?      @default(false)
-  createdAt      DateTime?     @default(now())
-  updatedAt      DateTime?     @updatedAt
+  role           String        @default("user")
+  photo          String        @default("default.png")
+  accepted       Boolean       @default(false)
+  verified       Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
   organization   Organization? @relation(fields: [organizationId], references: [organizationId])
   organizationId String?
 }

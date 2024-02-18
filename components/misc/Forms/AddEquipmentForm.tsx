@@ -50,7 +50,6 @@ export default function AddEquipmentForm({
   });
 
   const onSubmit: SubmitHandler<ToolInput> = async (data) => {
-    console.log("In submit");
     try {
       const res = await addEquipment(data);
       if (res?.status === 200) {

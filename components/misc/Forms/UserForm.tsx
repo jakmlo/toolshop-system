@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { editUser } from "@/lib/actions/profile/actions";
-import UploadFile from "../UploadFile";
+import UploadFile from "../UploadAvatar";
 
 type UserFormProps = {
   user: {
