@@ -4,7 +4,7 @@ const cspHeader = `
     default-src 'self' files.edgestore.dev edge-store.s3.us-east-1.amazonaws.com;
     script-src 'self' 'unsafe-eval' 'unsafe-inline';
     style-src 'self' 'unsafe-inline';
-    img-src 'self' files.edgestore.dev localhost blob: data:;
+    img-src 'self' files.edgestore.dev blob: data:;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
@@ -17,6 +17,16 @@ const cspHeader = `
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "files.edgestore.dev",
+        port: "",
+        pathname: "/*/publicFiles/_public/*",
+      },
+    ],
   },
   async headers() {
     return [

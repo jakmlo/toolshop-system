@@ -22,7 +22,7 @@ export default async function AddEquipment() {
   });
 
   return (
-    <div className="container flex items-center flex-col justify-center">
+    <div className="container flex flex-col items-center justify-center">
       <AddEquipmentForm categories={categories} />
     </div>
   );

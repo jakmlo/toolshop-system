@@ -22,13 +22,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import { SingleImageDropzone } from "@/components/utils/single-image-dropzone";
 import { addEquipment } from "@/lib/actions/equipment/actions";
+import { useEdgeStore } from "@/lib/edgestore";
 import { cn } from "@/lib/utils";
 import { ToolInput, ToolInputSchema } from "@/lib/validations/tool.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category } from "@prisma/client";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type AddEquipmentFormProps = {
@@ -43,19 +46,37 @@ export default function AddEquipmentForm({
     label: categories[~~key].name,
   }));
 
+  const [file, setFile] = React.useState<File>();
+  const { edgestore } = useEdgeStore();
+
   const router = useRouter();
 
   const form = useForm<ToolInput>({
     resolver: zodResolver(ToolInputSchema),
+    defaultValues: {
+      name: "",
+      catalogNumber: "",
+      description: "",
+      categoryId: "",
+      availability: true,
+    },
   });
 
   const onSubmit: SubmitHandler<ToolInput> = async (data) => {
     try {
-      const res = await addEquipment(data);
+      let url: string | undefined;
+      if (file) {
+        const res = await edgestore.publicFiles.upload({
+          file,
+        });
+        url = res.url;
+      }
+      const res = await addEquipment(data, url);
+
       if (res?.status === 200) {
         toast({
           title: "Sukces",
-          description: "Pomyślnie dodano nowego kontrahenta",
+          description: "Pomyślnie dodano nowy sprzęt",
           variant: "default",
         });
         form.reset();
@@ -125,7 +146,7 @@ export default function AddEquipmentForm({
             name="categoryId"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Kategoria</FormLabel>
+                <FormLabel className="pb-1">Kategoria</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -180,11 +201,18 @@ export default function AddEquipmentForm({
               </FormItem>
             )}
           />
-          <Button
-            disabled={form.formState.isSubmitting}
-            onClick={() => console.log("clicked")}
-            type="submit"
-          >
+          <FormItem>
+            <FormLabel>Obraz</FormLabel>
+            <SingleImageDropzone
+              width={200}
+              height={200}
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+            />
+          </FormItem>
+          <Button disabled={form.formState.isSubmitting} type="submit">
             Dodaj sprzęt
           </Button>
         </form>

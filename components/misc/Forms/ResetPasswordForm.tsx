@@ -30,6 +30,10 @@ export default function ResetPasswordForm({
   const router = useRouter();
   const form = useForm<ResetPasswordInput>({
     resolver: zodResolver(ResetPasswordSchema),
+    defaultValues: {
+      password: "",
+      passwordConfirm: "",
+    },
   });
 
   const onSubmit: SubmitHandler<ResetPasswordInput> = async (data) => {

@@ -31,6 +31,7 @@ model Tool {
   name          String
   catalogNumber String
   description   String?
+  image         String?
   category      Category[]
   categoryId    String
   availability  Boolean

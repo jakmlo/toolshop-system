@@ -22,6 +22,7 @@ Table Tool {
   name String [not null]
   catalogNumber String [not null]
   description String
+  image String
   category Category [not null]
   categoryId String [not null]
   availability Boolean [not null]

@@ -5,11 +5,14 @@ import { prisma } from "@/lib/prisma";
 import { ToolInput, ToolInputSchema } from "@/lib/validations/tool.schema";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { ZodError } from "zod";
+import { ZodError, z } from "zod";
 
-export async function addEquipment(data: ToolInput) {
+export async function addEquipment(data: ToolInput, url: string | undefined) {
   try {
     ToolInputSchema.parse(data);
+    if (url) {
+      z.string().parse(url);
+    }
 
     const session = await getServerSession(authOptions);
 
@@ -35,6 +38,7 @@ export async function addEquipment(data: ToolInput) {
         description: data?.description,
         categoryId: data.categoryId,
         availability: true,
+        image: url,
         organization: {
           connect: {
             organizationId: user?.organizationId as string,
@@ -54,7 +58,7 @@ export async function addEquipment(data: ToolInput) {
       return {
         status: 409,
         message: `Equipment with that ${error.meta.target.at(
-          0
+          0,
         )} already exists`,
       };
     }
@@ -124,7 +128,7 @@ export const editEquipment = async (data: ToolInput, id: string) => {
       return {
         status: 409,
         message: `Equipment with that ${error.meta.target.at(
-          0
+          0,
         )} already exists`,
       };
     }

@@ -13,9 +13,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { editUser } from "@/lib/actions/profile/actions";
-import UploadFile from "../UploadAvatar";
+import UploadFile from "../UploadFile";
+import React from "react";
 
 type UserFormProps = {
   user: {
@@ -73,29 +73,6 @@ export default function UserForm({ user }: UserFormProps) {
         <UploadFile />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="photo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="my-4">Zdjęcie</FormLabel>
-                  <FormControl>
-                    <Avatar className="h-9 w-9">
-                      <AvatarImage
-                        alt="Avatar"
-                        className="rounded-full border"
-                        height="32"
-                        src={user?.photo as string}
-                        width="32"
-                      />
-                      <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                      <span className="sr-only">Zmień avatara</span>
-                    </Avatar>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="name"

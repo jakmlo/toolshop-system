@@ -7,14 +7,14 @@ import {
 import { getServerSession } from "next-auth";
 
 type Context = {
-  userId: string;
+  id: string;
 };
 
 async function createContext({ req }: CreateContextOptions): Promise<Context> {
   const session = await getServerSession(authOptions);
 
   return {
-    userId: session?.user.id as string,
+    id: session?.user.id as string,
   };
 }
 
@@ -26,11 +26,11 @@ const edgeStoreRouter = es.router({
   publicFiles: es.fileBucket(),
   protectedFiles: es
     .fileBucket()
-    .path(({ ctx }) => [{ owner: ctx.userId }])
+    .path(({ ctx }) => [{ owner: ctx.id }])
     .accessControl({
       OR: [
         {
-          userId: { path: "owner" },
+          id: { path: "owner" },
         },
       ],
     }),

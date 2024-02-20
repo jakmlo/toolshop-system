@@ -24,6 +24,13 @@ export default function AddContractorForm() {
 
   const form = useForm<ContractorInput>({
     resolver: zodResolver(ContractorInputSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      taxIdNumber: "",
+      address: "",
+      phoneNumber: "",
+    },
   });
 
   const onSubmit: SubmitHandler<ContractorInput> = async (data) => {
@@ -32,7 +39,7 @@ export default function AddContractorForm() {
       if (res?.status === 200) {
         toast({
           title: "Sukces",
-          description: "Pomyślnie dodano nowy sprzęt",
+          description: "Pomyślnie dodano nowego kontrahenta",
           variant: "default",
         });
         form.reset();

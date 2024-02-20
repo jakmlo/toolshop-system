@@ -22,6 +22,9 @@ import { forgotPassword } from "@/lib/actions/forgotPassword/actions";
 export default function ForgotPasswordForm() {
   const form = useForm<ForgotPasswordInput>({
     resolver: zodResolver(ForgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordInput> = async (data) => {
