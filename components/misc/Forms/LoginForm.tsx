@@ -21,12 +21,14 @@ import Link from "next/link";
 import { useState } from "react";
 import Spinner from "../Spinners/Spinner";
 import { Eye, EyeOff } from "lucide-react";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { reset } = useEdgeStore();
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/workspaces";
@@ -62,6 +64,7 @@ export default function LoginForm() {
         setSuccess(true);
         router.push(callbackUrl);
         router.refresh();
+        reset();
         toast({
           title: "Zalogowano",
           description: "",

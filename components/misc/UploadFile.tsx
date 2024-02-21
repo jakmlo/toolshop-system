@@ -38,7 +38,7 @@ export default function UploadFile() {
                 setProgress(progress);
               },
               options: {
-                replaceTargetUrl: session?.user.photo as string | undefined,
+                replaceTargetUrl: session?.user?.photo as string | undefined,
               },
             });
             const resAction = await addUserImage(res.url, session?.user.id);

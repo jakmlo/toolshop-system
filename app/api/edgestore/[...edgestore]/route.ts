@@ -12,7 +12,7 @@ type Context = {
 
 async function createContext({ req }: CreateContextOptions): Promise<Context> {
   const session = await getServerSession(authOptions);
-
+  console.log("Edgestore context running");
   return {
     id: session?.user.id as string,
   };
@@ -39,6 +39,7 @@ const edgeStoreRouter = es.router({
 const handler = createEdgeStoreNextHandler({
   router: edgeStoreRouter,
   createContext,
+  // logLevel: "debug",
 });
 
 export { handler as GET, handler as POST };

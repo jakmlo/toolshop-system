@@ -14,6 +14,7 @@ import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "../ui/use-toast";
+import { useEdgeStore } from "@/lib/edgestore";
 
 type NavbarProps = {
   user: { name: string; role: string | null } | null | undefined;
@@ -22,6 +23,7 @@ export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session } = useSession();
+  const { reset } = useEdgeStore();
 
   if (pathname === "/workspaces" || pathname === "/workspaces/profile")
     return (
@@ -67,6 +69,7 @@ export default function Navbar({ user }: NavbarProps) {
                       });
                       router.push(data.url);
                       router.refresh();
+                      reset();
                       toast({
                         title: "Wylogowano pomyślnie",
                         description: "Nastąpiło przekierowanie",
@@ -147,6 +150,7 @@ export default function Navbar({ user }: NavbarProps) {
                         });
                         router.push(data.url);
                         router.refresh();
+                        reset();
                         toast({
                           title: "Wylogowano pomyślnie",
                           description: "Nastąpiło przekierowanie",

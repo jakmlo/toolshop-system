@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/client";
 import { compare } from "bcrypt";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";

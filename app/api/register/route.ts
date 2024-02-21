@@ -34,19 +34,15 @@ export async function POST(req: NextRequest) {
       });
       const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
 
-      try {
-        const templateBody = render(
-          ActivationTemplate({ name: user.name, url: activationUrl }),
-        );
+      const templateBody = render(
+        ActivationTemplate({ name: user.name, url: activationUrl }),
+      );
 
-        await sendMail({
-          to: user.email,
-          subject: "Aktywacja konta",
-          body: templateBody,
-        });
-      } catch (error: any) {
-        console.log(error);
-      }
+      await sendMail({
+        to: user.email,
+        subject: "Aktywacja konta",
+        body: templateBody,
+      });
     }
 
     return new NextResponse(

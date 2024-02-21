@@ -21,7 +21,7 @@ export default async function Profile() {
   });
 
   return (
-    <div className="container w-1/2 mt-16">
+    <div className="container mt-16 w-1/2">
       <UserForm user={user} />
     </div>
   );
