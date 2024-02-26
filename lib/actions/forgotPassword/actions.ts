@@ -8,7 +8,7 @@ import {
   ResetPasswordInput,
   ResetPasswordSchema,
 } from "@/lib/validations/user.schema";
-import { render } from "@react-email/render";
+import { renderAsync } from "@react-email/render";
 import { hash } from "bcrypt";
 import ResetPasswordTemplate from "@/lib/emailTemplates/resetPassword";
 import { ZodError } from "zod";
@@ -34,7 +34,7 @@ export async function forgotPassword(data: ForgotPasswordInput) {
 
     const resetPasswordUrl = `${process.env.NEXTAUTH_URL}/auth/password/reset/${passwordResetToken}`;
 
-    const templateBody = render(
+    const templateBody = await renderAsync(
       ResetPasswordTemplate({ name: user.name, url: resetPasswordUrl }),
     );
     await sendMail({
