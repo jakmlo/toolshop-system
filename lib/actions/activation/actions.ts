@@ -1,19 +1,25 @@
 "use server";
 
-import { verifyJWT } from "@/lib/jwt";
 import { prisma } from "@/lib/prisma";
 
 type ActivateUserFunction = (
-  jwtUserId: string
-) => Promise<"userNotExist" | "alreadyActivated" | "success">;
+  token: string,
+) => Promise<"userNotExist" | "tokenExpired" | "alreadyActivated" | "success">;
 
-export const activateUser: ActivateUserFunction = async (jwtUserId) => {
-  const payload = verifyJWT(jwtUserId);
-  if (!payload) return "userNotExist";
+export const activateUser: ActivateUserFunction = async (token) => {
+  const existingToken = await prisma.verificationToken.findUnique({
+    where: {
+      token: token,
+      expires: {},
+    },
+  });
 
-  const userId = payload?.id;
+  if (!existingToken) return "userNotExist";
+
+  if (existingToken.expires < new Date()) return "tokenExpired";
+
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { email: existingToken.email },
   });
   if (!user) {
     return "userNotExist";
@@ -24,7 +30,7 @@ export const activateUser: ActivateUserFunction = async (jwtUserId) => {
 
   await prisma.user.update({
     where: {
-      id: userId,
+      email: existingToken.email,
     },
     data: {
       verified: true,

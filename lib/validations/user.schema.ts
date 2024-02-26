@@ -13,7 +13,6 @@ export const RegisterUserSchema = z
       })
       .min(1, "Adres e-mail jest wymagany")
       .email("Adres e-mail jest niepoprawny"),
-    photo: z.string().optional(),
     password: z
       .string({
         required_error: "Hasło jest wymagane",

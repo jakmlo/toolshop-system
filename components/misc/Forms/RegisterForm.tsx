@@ -45,7 +45,6 @@ export default function RegisterForm() {
           email: data.email,
           password: data.password,
           passwordConfirm: data.passwordConfirm,
-          photo: data?.photo,
         }),
       });
       if (res.status === 201) {

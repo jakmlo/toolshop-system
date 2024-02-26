@@ -8,7 +8,7 @@ declare module "next-auth" {
       sub: string;
       id: string;
       role: string;
-      photo: string;
+      image: string;
       accepted: boolean;
       verified: boolean;
       createdAt: Date;

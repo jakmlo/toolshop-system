@@ -21,12 +21,10 @@ import { useRouter } from "next/navigation";
 import { resetPassword } from "@/lib/actions/forgotPassword/actions";
 
 interface ResetPasswordFormProps {
-  jwtUserId: string;
+  email: string;
 }
 
-export default function ResetPasswordForm({
-  jwtUserId,
-}: ResetPasswordFormProps) {
+export default function ResetPasswordForm({ email }: ResetPasswordFormProps) {
   const router = useRouter();
   const form = useForm<ResetPasswordInput>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -38,7 +36,7 @@ export default function ResetPasswordForm({
 
   const onSubmit: SubmitHandler<ResetPasswordInput> = async (data) => {
     try {
-      const res = await resetPassword(jwtUserId, data);
+      const res = await resetPassword(email, data);
       if (res?.status === 200) {
         toast({
           title: "Hasło zresetowane poprawnie",

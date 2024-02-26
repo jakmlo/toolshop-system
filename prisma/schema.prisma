@@ -13,11 +13,11 @@ datasource db {
 
 model User {
   id             String        @id @unique @default(uuid())
-  name           String        @unique
+  name           String        
   email          String        @unique
   password       String
   role           String        @default("user")
-  photo          String        @default("default.png")
+  image          String        @default("default.png")
   accepted       Boolean       @default(false)
   verified       Boolean       @default(false)
   createdAt      DateTime      @default(now())
@@ -83,4 +83,24 @@ model Organization {
   categories       Category[]
   createdAt        DateTime     @default(now())
 }
+
+model VerificationToken {
+  id String @id @default(uuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id String @id @default(uuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+
 

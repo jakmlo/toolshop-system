@@ -1,9 +1,8 @@
 import { getErrorResponse } from "@/lib/helpers";
-import { signJWT } from "@/lib/jwt";
 import { sendMail } from "@/lib/mail";
 import ActivationTemplate from "@/lib/emailTemplates/activation";
 import { prisma } from "@/lib/prisma";
-import { render } from "@react-email/render";
+import { renderAsync } from "@react-email/render";
 import {
   RegisterUserInput,
   RegisterUserSchema,
@@ -11,6 +10,7 @@ import {
 import { hash } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { generateVerificationToken } from "@/lib/token";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,25 +24,24 @@ export async function POST(req: NextRequest) {
         name: data.name,
         email: data.email.toLowerCase(),
         password: hashedPassword,
-        photo: data.photo,
       },
     });
 
     if (user) {
-      const jwtUserId = signJWT({
-        id: user.id,
-      });
-      const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
-
-      const templateBody = render(
-        ActivationTemplate({ name: user.name, url: activationUrl }),
-      );
-
-      await sendMail({
-        to: user.email,
-        subject: "Aktywacja konta",
-        body: templateBody,
-      });
+      try {
+        const verificationToken = await generateVerificationToken(user.email);
+        const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${verificationToken}`;
+        const templateBody = await renderAsync(
+          ActivationTemplate({ name: user.name, url: activationUrl }),
+        );
+        await sendMail({
+          to: user.email,
+          subject: "Aktywacja konta",
+          body: templateBody,
+        });
+      } catch (error: any) {
+        return getErrorResponse(500, error.message);
+      }
     }
 
     return new NextResponse(

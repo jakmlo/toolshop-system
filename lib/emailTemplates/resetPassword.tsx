@@ -22,17 +22,19 @@ export default function ResetPasswordTemplate({
     <Html>
       <Tailwind>
         <Head />
-        <Body>
-          <Container className="mx-auto w-full max-w-lg rounded-lg border bg-card bg-gradient-to-br from-purple-500 to-pink-500 text-card-foreground shadow-lg">
-            <Text className="text-3xl font-bold text-white">Cześć {name}</Text>
-            <Text className="text-lg text-gray-300 dark:text-gray-400">
+        <Body className="mx-auto my-auto bg-white px-2 font-sans">
+          <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+            <Text className="text-3xl text-black">
+              Cześć <strong>{name}</strong>
+            </Text>
+            <Text className="text-lg text-black dark:text-gray-400">
               Otrzymaliśmy prośbę o zmianę hasła.
             </Text>
-            <Text className="text-white">
+            <Text className="text-black">
               Aby zresetować hasło kliknij w poniższy link.
             </Text>
             <Link
-              className="w-full rounded-md bg-white py-2 text-center text-purple-500 hover:bg-purple-100 hover:text-purple-700"
+              className="w-full rounded-md bg-white py-2 text-center text-purple-500 hover:text-purple-700"
               href={url}
             >
               Zresetuj hasło

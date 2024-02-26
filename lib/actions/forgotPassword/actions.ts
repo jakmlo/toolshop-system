@@ -1,6 +1,5 @@
 "use server";
 
-import { signJWT, verifyJWT } from "@/lib/jwt";
 import { sendMail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
 import {
@@ -13,6 +12,7 @@ import { render } from "@react-email/render";
 import { hash } from "bcrypt";
 import ResetPasswordTemplate from "@/lib/emailTemplates/resetPassword";
 import { ZodError } from "zod";
+import { generatePasswordResetToken } from "@/lib/token";
 
 export async function forgotPassword(data: ForgotPasswordInput) {
   try {
@@ -30,11 +30,9 @@ export async function forgotPassword(data: ForgotPasswordInput) {
         message: "User not found",
       };
     }
+    const passwordResetToken = await generatePasswordResetToken(user.email);
 
-    const jwtUserId = signJWT({
-      id: user.id,
-    });
-    const resetPasswordUrl = `${process.env.NEXTAUTH_URL}/auth/password/reset/${jwtUserId}`;
+    const resetPasswordUrl = `${process.env.NEXTAUTH_URL}/auth/password/reset/${passwordResetToken}`;
 
     const templateBody = render(
       ResetPasswordTemplate({ name: user.name, url: resetPasswordUrl }),
@@ -45,7 +43,7 @@ export async function forgotPassword(data: ForgotPasswordInput) {
       body: templateBody,
     });
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
     if (error instanceof ZodError) {
       return { status: 400, message: "Failed validation" };
     }
@@ -56,19 +54,15 @@ export async function forgotPassword(data: ForgotPasswordInput) {
 }
 
 export const resetPassword = async (
-  jwtUserId: string,
+  email: string,
   data: ResetPasswordInput,
 ) => {
   try {
     ResetPasswordSchema.parse(data);
-    const payload = verifyJWT(jwtUserId);
 
-    if (!payload) return { status: 404, message: "User not found" };
-
-    const userId = payload.id;
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        email,
       },
     });
 
@@ -78,7 +72,7 @@ export const resetPassword = async (
 
     const result = await prisma.user.update({
       where: {
-        id: userId,
+        email,
       },
       data: {
         password: hashedPassword,

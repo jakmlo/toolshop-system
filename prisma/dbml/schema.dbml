@@ -8,7 +8,7 @@ Table User {
   email String [unique, not null]
   password String [not null]
   role String [not null, default: 'user']
-  photo String [not null, default: 'default.png']
+  image String [not null, default: 'default.png']
   accepted Boolean [not null, default: false]
   verified Boolean [not null, default: false]
   createdAt DateTime [default: `now()`, not null]
@@ -73,6 +73,28 @@ Table Organization {
   rentals Rental [not null]
   categories Category [not null]
   createdAt DateTime [default: `now()`, not null]
+}
+
+Table VerificationToken {
+  id String [pk]
+  email String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (email, token) [unique]
+  }
+}
+
+Table PasswordResetToken {
+  id String [pk]
+  email String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (email, token) [unique]
+  }
 }
 
 Ref: User.organizationId > Organization.organizationId

@@ -44,7 +44,7 @@ export default function Navbar({ user }: NavbarProps) {
                     alt="Avatar"
                     className="rounded-full border"
                     height="32"
-                    src={session?.user.photo as string}
+                    src={session?.user.image as string}
                     width="32"
                   />
                   <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
@@ -120,7 +120,7 @@ export default function Navbar({ user }: NavbarProps) {
                       alt="Avatar"
                       className="rounded-full"
                       height="32"
-                      src={session?.user.photo as string}
+                      src={session?.user.image as string}
                       width="32"
                     />
                     <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
