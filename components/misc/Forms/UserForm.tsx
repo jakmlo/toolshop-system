@@ -22,7 +22,7 @@ type UserFormProps = {
     id: string;
     name: string;
     email: string;
-    photo: string | null;
+    image: string | null;
     accepted: boolean | null;
   } | null;
 };
@@ -33,7 +33,7 @@ export default function UserForm({ user }: UserFormProps) {
   const form = useForm<EditUserInput>({
     resolver: zodResolver(EditUserSchema),
     defaultValues: {
-      photo: user?.photo,
+      image: user?.image,
       name: user?.name,
       email: user?.email,
     },

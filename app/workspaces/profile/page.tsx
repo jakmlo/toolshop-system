@@ -13,7 +13,7 @@ export default async function Profile() {
     select: {
       id: true,
       name: true,
-      photo: true,
+      image: true,
       email: true,
       accepted: true,
       organization: true,

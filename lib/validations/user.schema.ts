@@ -57,7 +57,7 @@ export const EditUserSchema = z.object({
     })
     .min(1, "Adres e-mail jest wymagany")
     .email("Adres e-mail jest nieprawidłowy"),
-  photo: z.string().nullable(),
+  image: z.string().nullable(),
 });
 
 export const ForgotPasswordSchema = z.object({
