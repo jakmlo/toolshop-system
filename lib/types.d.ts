@@ -29,7 +29,7 @@ declare module "next-auth/jwt" {
       sub: string;
       id: string;
       role: string;
-      photo: string;
+      image: string;
       accepted: boolean;
       verified: boolean;
       createdAt: Date;

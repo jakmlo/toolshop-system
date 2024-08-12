@@ -1,5 +1,4 @@
 import { RentalForm } from "@/components/misc/Rental/RentalForm";
-import { Rental } from "@/lib/validations/rental.schema";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";

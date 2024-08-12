@@ -10,8 +10,8 @@ export default async function Home() {
   if (session) redirect("/workspaces");
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="flex items-center justify-between p-6 bg-white dark:bg-gray-800 shadow-md">
+    <div className="flex min-h-screen flex-col border-t bg-gray-50 dark:bg-gray-900">
+      <header className="flex items-center justify-between bg-white p-6 shadow-md dark:bg-gray-800">
         <Link
           className="text-2xl font-bold text-gray-800 dark:text-gray-200"
           href="/"
@@ -27,34 +27,34 @@ export default async function Home() {
           </Link>
           <Link
             href="/auth/register"
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+            className="rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
           >
             Zarejestruj się
           </Link>
         </div>
       </header>
       <main className="flex-1">
-        <section className="py-12 px-6 bg-gray-100 dark:bg-gray-800">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+        <section className="bg-gray-100 px-6 py-12 dark:bg-gray-800">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="mb-4 text-4xl font-bold text-gray-800 dark:text-gray-200">
               Uprość swój proces wypożyczania
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
+            <p className="mb-8 text-gray-600 dark:text-gray-400">
               Nasz system pozwala w łatwy sposób zarządzać wypożyczeniami
               sprzętu, śledź dostępność i usprawniaj swoje działania.
             </p>
             <Link href="/auth/register">
-              <Button className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+              <Button className="rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700">
                 Zacznij teraz
               </Button>
             </Link>
           </div>
         </section>
-        <section className="py-12 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section className="px-6 py-12">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col items-center text-center">
-              <SettingsIcon className="h-12 w-12 mb-4 text-blue-600" />
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+              <SettingsIcon className="mb-4 h-12 w-12 text-blue-600" />
+              <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-gray-200">
                 Funkcjonalności
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -62,8 +62,8 @@ export default async function Home() {
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <CalendarCheckIcon className="h-12 w-12 mb-4 text-blue-600" />
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+              <CalendarCheckIcon className="mb-4 h-12 w-12 text-blue-600" />
+              <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-gray-200">
                 Dostępność w czasie rzeczywistym
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -71,8 +71,8 @@ export default async function Home() {
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <HelpCircleIcon className="h-12 w-12 mb-4 text-blue-600" />
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+              <HelpCircleIcon className="mb-4 h-12 w-12 text-blue-600" />
+              <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-gray-200">
                 Wsparcie 24/7
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -83,15 +83,15 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      <footer className="bg-white dark:bg-gray-800 py-6 px-6 mt-auto">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
+      <footer className="mt-auto bg-white px-6 py-6 dark:bg-gray-800">
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-between sm:flex-row">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             © 2024 Toolshop System. Wszystkie prawa zastrzeżone.
           </p>
-          <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+          <div className="mt-4 flex items-center space-x-4 sm:mt-0">
             <Link
               className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
-              href="#"
+              href="/about"
             >
               O nas
             </Link>
@@ -114,7 +114,7 @@ export default async function Home() {
   );
 
   function CalendarCheckIcon(
-    props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+    props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
   ) {
     return (
       <svg
@@ -140,7 +140,7 @@ export default async function Home() {
 }
 
 function HelpCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -163,7 +163,7 @@ function HelpCircleIcon(
 }
 
 function SettingsIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg

@@ -49,7 +49,7 @@ export default function UploadFile() {
               });
               update({
                 ...session,
-                user: { ...session?.user, photo: res.url },
+                user: { ...session?.user, image: res.url },
               });
             } else {
               toast({

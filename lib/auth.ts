@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         },
       });
 
-      if (!existingUser) {
+      if (!existingUser?.verified) {
         return false;
       }
 

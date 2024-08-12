@@ -131,7 +131,9 @@ export default function Navbar({ user }: NavbarProps) {
                   <Link href={"/profile"}>
                     <DropdownMenuItem>Profile</DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <Link href={"/settings"}>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>{" "}
+                  </Link>
                   {user?.role === "admin" && (
                     <Link href={"/seats"}>
                       <DropdownMenuItem>

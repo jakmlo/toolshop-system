@@ -2,40 +2,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator dbml {
-  provider = "prisma-dbml-generator"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id             String        @id @unique @default(uuid())
-  name           String        
-  email          String        @unique
-  password       String
-  role           String        @default("user")
-  image          String        @default("default.png")
-  accepted       Boolean       @default(false)
-  verified       Boolean       @default(false)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  organization   Organization? @relation(fields: [organizationId], references: [organizationId])
-  organizationId String?
+  id               String        @id @unique @default(uuid())
+  name             String        
+  email            String        @unique
+  password         String
+  role             String        @default("user")
+  image            String        @default("default.png")
+  accepted         Boolean       @default(false)
+  verified         Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  stripeCustomerId String?
+  organization     Organization? @relation(fields: [organizationId], references: [organizationId])
+  organizationId   String?
 }
 
 model Tool {
-  toolId        String       @id @unique @default(uuid())
-  name          String
-  catalogNumber String
-  description   String?
-  image         String?
-  category      Category[]
-  categoryId    String
-  availability  Boolean
-  rentals       Rental[]
+  toolId         String       @id @unique @default(uuid())
+  name           String
+  catalogNumber  String
+  description    String?
+  image          String?
+  category       Category[]
+  categoryId     String
+  availability   Boolean
+  rentals        Rental[]
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [organizationId])
 }
@@ -61,13 +58,13 @@ model Contractor {
 }
 
 model Rental {
-  rentalId     String       @id @unique @default(uuid())
-  tools        Tool[]
-  contractor   Contractor   @relation(fields: [contractorId], references: [contractorId])
-  contractorId String
-  rentalDate   DateTime     @default(now())
-  returnDate   DateTime
-  status       String       @default("pending")
+  rentalId      String       @id @unique @default(uuid())
+  tools         Tool[]
+  contractor    Contractor   @relation(fields: [contractorId], references: [contractorId])
+  contractorId  String
+  rentalDate    DateTime     @default(now())
+  returnDate    DateTime
+  status        String       @default("pending")
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [organizationId])
 }
