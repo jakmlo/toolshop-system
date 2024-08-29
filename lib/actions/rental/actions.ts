@@ -38,7 +38,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
           Array.from({ length: counts[tool.catalogNumber] || 0 }, () => ({
             catalogNumber: tool.catalogNumber,
             toolId: { not: tool.toolId },
-          }))
+          })),
         ),
       },
     });
@@ -48,7 +48,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
     const selectedToolIds = selectedTools.map((tool) => tool.toolId);
 
     const areAllToolsAvailable = selectedTools.every(
-      (tool) => tool?.availability
+      (tool) => tool?.availability,
     );
 
     if (!areAllToolsAvailable) {

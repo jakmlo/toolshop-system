@@ -1,0 +1,7 @@
+services:
+  app_prod:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"

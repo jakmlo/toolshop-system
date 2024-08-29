@@ -26,7 +26,7 @@ export default async function Contractors() {
   });
 
   return (
-    <div className="container flex items-center flex-col justify-center">
+    <div className="container flex flex-col items-center justify-center">
       {user.role === "admin" && (
         <Link className="mr-auto" href="/contractors/add">
           <Button>Dodaj kontrahenta</Button>

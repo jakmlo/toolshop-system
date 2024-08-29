@@ -15,7 +15,7 @@ export default async function AddContractor() {
   if (user?.role === "user") redirect("/contractors");
   if (!(user?.organizationId && user?.accepted)) redirect("/workspaces");
   return (
-    <div className="container flex items-center flex-col justify-center">
+    <div className="container flex flex-col items-center justify-center">
       <AddContractorForm />
     </div>
   );

@@ -58,7 +58,7 @@ export async function addContractor(data: ContractorInput) {
       return {
         status: 409,
         message: `Contractor with that ${error.meta.target.at(
-          0
+          0,
         )} already exists`,
       };
     }
@@ -128,7 +128,7 @@ export const editContractor = async (data: ContractorInput, id: string) => {
       return {
         status: 409,
         message: `Contractor with that ${error.meta.target.at(
-          0
+          0,
         )} already exists`,
       };
     }

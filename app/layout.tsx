@@ -33,7 +33,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pl">
-      <body className="flex bg-slate-100 ">
+      <body className="flex bg-slate-100">
         <NextAuthProvider>
           <EdgeStoreProvider>
             {!!session && <Sidebar />}

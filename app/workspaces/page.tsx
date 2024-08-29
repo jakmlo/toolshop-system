@@ -20,7 +20,7 @@ export default async function Workspaces() {
       <main className="h-max p-12">
         <div className="grid grid-flow-row gap-4">
           <div className="text-left">
-            <p className="text-2xl font-bold mb-2">Moje miejsca pracy</p>
+            <p className="mb-2 text-2xl font-bold">Moje miejsca pracy</p>
             {!user?.accepted && <JoinOrganizationDialog />}
             <p className="text-gray-600">
               {user?.organizationId
@@ -28,12 +28,12 @@ export default async function Workspaces() {
                 : "Nie masz jeszcze obszaru roboczego"}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {user?.organizationId ? (
               <>
                 <Link href={user?.accepted ? "/dashboard" : ""}>
-                  <div className="bg-white p-6 rounded-md shadow-md  hover:shadow-xl cursor-pointer ">
-                    <h2 className="text-lg font-bold mb-2">
+                  <div className="cursor-pointer rounded-md bg-white p-6 shadow-md hover:shadow-xl">
+                    <h2 className="mb-2 text-lg font-bold">
                       {`${user?.organization?.name} ${
                         !user.accepted ? "(W trakcie weryfikacji)" : ""
                       }`}
@@ -45,9 +45,9 @@ export default async function Workspaces() {
                 </Link>
                 {!user.accepted && (
                   <CreateOrganizationDialog>
-                    <div className="bg-white p-6 rounded-md shadow-md flex flex-col items-center hover:shadow-xl cursor-pointer ">
-                      <Plus className="h-16 w-16 text-blue-500 m-4" />
-                      <h2 className="text-lg font-bold mb-2 text-center">
+                    <div className="flex cursor-pointer flex-col items-center rounded-md bg-white p-6 shadow-md hover:shadow-xl">
+                      <Plus className="m-4 h-16 w-16 text-blue-500" />
+                      <h2 className="mb-2 text-center text-lg font-bold">
                         Dodaj obszar roboczy
                       </h2>
                       <p className="text-gray-600">
@@ -61,9 +61,9 @@ export default async function Workspaces() {
               </>
             ) : (
               <CreateOrganizationDialog>
-                <div className="bg-white p-6 rounded-md shadow-md flex flex-col items-center hover:shadow-xl cursor-pointer ">
-                  <Plus className="h-16 w-16 text-blue-500 m-4" />
-                  <h2 className="text-lg font-bold mb-2 text-center">
+                <div className="flex cursor-pointer flex-col items-center rounded-md bg-white p-6 shadow-md hover:shadow-xl">
+                  <Plus className="m-4 h-16 w-16 text-blue-500" />
+                  <h2 className="mb-2 text-center text-lg font-bold">
                     Dodaj obszar roboczy
                   </h2>
                   <p className="text-gray-600">
