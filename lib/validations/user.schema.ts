@@ -19,7 +19,19 @@ export const RegisterUserSchema = z
       })
       .min(1, "Hasło jest wymagane")
       .min(8, "Hasło musi składać się z co najmniej 8 znaków")
-      .max(32, "Hasło nie może mieć więcej niż 32 znaki"),
+      .max(32, "Hasło nie może mieć więcej niż 32 znaki")
+      .refine((value) => /[A-Z]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną wielką literę",
+      })
+      .refine((value) => /[a-z]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną małą literę",
+      })
+      .refine((value) => /[0-9]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną cyfrę",
+      })
+      .refine((value) => /[^A-Za-z0-9]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jeden znak specjalny",
+      }),
     passwordConfirm: z
       .string({
         required_error: "Potwierdź hasło",
@@ -43,6 +55,7 @@ export const LoginUserSchema = z.object({
       required_error: "Hasło jest wymagane",
     })
     .min(1, "Hasło jest wymagane"),
+  code: z.optional(z.string().max(6, "Wprowadź tylko 6 cyfr")),
 });
 
 export const EditUserSchema = z.object({
@@ -74,7 +87,19 @@ export const ResetPasswordSchema = z
       })
       .min(1, "Hasło jest wymagane")
       .min(8, "Hasło musi składać się z co najmniej 8 znaków")
-      .max(64, "Hasło nie może mieć więcej niż 64 znaków"),
+      .max(64, "Hasło nie może mieć więcej niż 64 znaków")
+      .refine((value) => /[A-Z]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną wielką literę",
+      })
+      .refine((value) => /[a-z]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną małą literę",
+      })
+      .refine((value) => /[0-9]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jedną cyfrę",
+      })
+      .refine((value) => /[^A-Za-z0-9]/.test(value), {
+        message: "Hasło musi zawierać co najmniej jeden znak specjalny",
+      }),
     passwordConfirm: z
       .string({
         required_error: "Potwierdź hasło",

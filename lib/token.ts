@@ -1,9 +1,31 @@
-import { randomUUID } from "crypto";
+import { randomUUID, randomInt } from "crypto";
 import { prisma } from "./prisma";
+import { getTwoFactorTokenByEmail } from "./data/getTwoFactorTokenByToken";
+
+export const generateTwoFactorToken = async (email: string) => {
+  const token = randomInt(100000, 1000000).toString();
+  const expires = new Date(new Date().getTime() + 300 * 1000);
+
+  const existingToken = await getTwoFactorTokenByEmail(email);
+
+  if (existingToken) {
+    await prisma.twoFactorToken.delete({
+      where: { id: existingToken.id },
+    });
+  }
+  const twoFactorToken = await prisma.twoFactorToken.create({
+    data: {
+      email,
+      token,
+      expires,
+    },
+  });
+  return twoFactorToken;
+};
 
 export const generateVerificationToken = async (email: string) => {
   const token = randomUUID();
-  const expires = new Date(new Date().getTime() + 3600 * 1000);
+  const expires = new Date(new Date().getTime() + 300 * 1000);
 
   const existingToken = await prisma.verificationToken.findFirst({
     where: { email },
@@ -33,7 +55,7 @@ export const generateVerificationToken = async (email: string) => {
 
 export const generatePasswordResetToken = async (email: string) => {
   const token = randomUUID();
-  const expires = new Date(new Date().getTime() + 600 * 1000);
+  const expires = new Date(new Date().getTime() + 300 * 1000);
 
   const existingToken = await prisma.passwordResetToken.findFirst({
     where: { email },

@@ -1,12 +1,11 @@
 "use server";
 
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import {
   RentalInput,
   RentalInputSchema,
 } from "@/lib/validations/rental.schema";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
@@ -14,7 +13,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
   try {
     RentalInputSchema.array().parse(rentalList);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const toolIds = rentalList.map((rentalItem) => rentalItem.tool);
 
@@ -114,7 +113,7 @@ export const createRental = async (rentalList: RentalInput[]) => {
 };
 
 export const deleteRental = async (id: string) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   await prisma.rental.delete({
     where: {
       rentalId: id,
@@ -125,7 +124,7 @@ export const deleteRental = async (id: string) => {
 };
 
 export const checkToolStore = async (catalogNumber: string) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const user = await prisma.user.findUnique({
     where: {

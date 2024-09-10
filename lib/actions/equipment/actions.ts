@@ -1,9 +1,8 @@
 "use server";
 
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ToolInput, ToolInputSchema } from "@/lib/validations/tool.schema";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { ZodError, z } from "zod";
 
@@ -14,7 +13,7 @@ export async function addEquipment(data: ToolInput, url: string | undefined) {
       z.string().parse(url);
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
@@ -75,7 +74,7 @@ export const editEquipment = async (data: ToolInput, id: string) => {
   try {
     const toolInput = ToolInputSchema.parse(data);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {

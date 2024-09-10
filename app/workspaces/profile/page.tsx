@@ -1,10 +1,9 @@
 import UserForm from "@/components/misc/Forms/UserForm";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export default async function Profile() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const user = await prisma.user.findUnique({
     where: {

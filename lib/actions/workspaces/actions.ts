@@ -1,6 +1,6 @@
 "use server";
 
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import {
   CreateOrganizationInput,
@@ -8,7 +8,6 @@ import {
   JoinOrganizationInput,
   JoinOrganizationSchema,
 } from "@/lib/validations/organization.schema";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
@@ -16,7 +15,7 @@ export async function createOrganization(data: CreateOrganizationInput) {
   try {
     CreateOrganizationSchema.parse(data);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
@@ -72,7 +71,7 @@ export async function joinOrganization(data: JoinOrganizationInput) {
   try {
     const organizationInput = JoinOrganizationSchema.parse(data);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
@@ -127,7 +126,7 @@ export async function joinOrganization(data: JoinOrganizationInput) {
 
 export async function addUserToOrganization(id: string) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
@@ -177,7 +176,7 @@ export async function addUserToOrganization(id: string) {
 
 export async function removeUserFromOrganization(id: string) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {

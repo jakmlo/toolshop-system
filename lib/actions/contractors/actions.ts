@@ -1,13 +1,11 @@
 "use server";
 
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import {
   ContractorInput,
   ContractorInputSchema,
 } from "@/lib/validations/contractor.schema";
-
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
@@ -15,7 +13,7 @@ export async function addContractor(data: ContractorInput) {
   try {
     ContractorInputSchema.parse(data);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
@@ -75,7 +73,7 @@ export const editContractor = async (data: ContractorInput, id: string) => {
   try {
     const contractorInput = ContractorInputSchema.parse(data);
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {

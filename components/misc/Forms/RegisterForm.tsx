@@ -47,6 +47,7 @@ export default function RegisterForm() {
           passwordConfirm: data.passwordConfirm,
         }),
       });
+      console.log(res)
       if (res.status === 201) {
         router.push("/auth/login");
         toast({

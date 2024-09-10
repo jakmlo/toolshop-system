@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { JSX, SVGProps } from "react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) redirect("/workspaces");
 

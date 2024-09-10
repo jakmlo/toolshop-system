@@ -8,20 +8,22 @@ datasource db {
 }
 
 model User {
-  id               String        @id @unique @default(uuid())
+  id               String        @id @unique @default(cuid())
   name             String        
   email            String        @unique
-  password         String
+  password         String?
   role             String        @default("user")
   image            String        @default("default.png")
   accepted         Boolean       @default(false)
-  verified         Boolean       @default(false)
+  emailVerified    DateTime?    
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   stripeCustomerId String?
   organization     Organization? @relation(fields: [organizationId], references: [organizationId])
   organizationId   String?
   accounts      Account[]
+  isTwoFactorEnabled Boolean @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
 }
 
 model Account {
@@ -44,7 +46,7 @@ model Account {
 }
 
 model Tool {
-  toolId         String       @id @unique @default(uuid())
+  toolId         String       @id @unique @default(cuid())
   name           String
   catalogNumber  String
   description    String?
@@ -58,7 +60,7 @@ model Tool {
 }
 
 model Category {
-  categoryId     String        @id @unique @default(uuid())
+  categoryId     String        @id @unique @default(cuid())
   name           String
   tools          Tool[]
   organization   Organization? @relation(fields: [organizationId], references: [organizationId])
@@ -66,7 +68,7 @@ model Category {
 }
 
 model Contractor {
-  contractorId   String        @id @unique @default(uuid())
+  contractorId   String        @id @unique @default(cuid())
   firstName      String
   lastName       String
   taxIdNumber    String @default("NIP")
@@ -78,7 +80,7 @@ model Contractor {
 }
 
 model Rental {
-  rentalId      String       @id @unique @default(uuid())
+  rentalId      String       @id @unique @default(cuid())
   tools         Tool[]
   contractor    Contractor   @relation(fields: [contractorId], references: [contractorId])
   contractorId  String
@@ -90,7 +92,7 @@ model Rental {
 }
 
 model Organization {
-  organizationId   String @id @unique @default(uuid())
+  organizationId   String @id @unique @default(cuid())
   name             String @unique
   adminId          String? @unique
   users            User[]
@@ -102,7 +104,7 @@ model Organization {
 }
 
 model VerificationToken {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   email String
   token String @unique
   expires DateTime
@@ -111,7 +113,7 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   email String
   token String @unique
   expires DateTime
@@ -119,5 +121,20 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
+model TwoFactorToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
 
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
 

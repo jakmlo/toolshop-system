@@ -9,23 +9,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "../ui/use-toast";
 import { useEdgeStore } from "@/lib/edgestore";
+import { logoutUser } from "@/lib/actions/login/actions";
+import { Session } from "next-auth";
 
 type NavbarProps = {
   user: { name: string; role: string | null } | null | undefined;
+  session: Session | null | undefined;
 };
-export default function Navbar({ user }: NavbarProps) {
+
+export default function Navbar({ user, session }: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session } = useSession();
   const { reset } = useEdgeStore();
-
-  if (pathname === "/workspaces" || pathname === "/workspaces/profile")
+  if (pathname === "/workspaces" || pathname === "/workspaces/profile") {
     return (
       <header className="flex items-center justify-between bg-white p-6 shadow-md dark:bg-gray-800">
         <Link
@@ -39,19 +40,21 @@ export default function Navbar({ user }: NavbarProps) {
             <h2>{user?.name}</h2>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar className="h-12 w-12 cursor-pointer">
-                  <AvatarImage
-                    alt="Avatar"
-                    className="rounded-full border"
-                    height="32"
-                    src={session?.user.image as string}
-                    width="32"
-                  />
-                  <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
-                  <span className="sr-only">
-                    Otwórz menu rozwijane użytkownika
-                  </span>
-                </Avatar>
+                {session?.user.image && (
+                  <Avatar className="h-12 w-12 cursor-pointer">
+                    <AvatarImage
+                      alt="Avatar"
+                      className="rounded-full border"
+                      height="32"
+                      src={session?.user.image}
+                      width="32"
+                    />
+                    <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                    <span className="sr-only">
+                      Otwórz menu rozwijane użytkownika
+                    </span>
+                  </Avatar>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <Link href={"/workspaces/profile"}>
@@ -63,16 +66,12 @@ export default function Navbar({ user }: NavbarProps) {
                   <button
                     className="w-full text-left"
                     onClick={async () => {
-                      const data = await signOut({
-                        redirect: false,
-                        callbackUrl: "/",
-                      });
-                      router.push(data.url);
+                      await logoutUser();
                       router.refresh();
                       reset();
                       toast({
                         title: "Wylogowano pomyślnie",
-                        description: "Nastąpiło przekierowanie",
+                        description: "",
                         variant: "default",
                       });
                     }}
@@ -86,6 +85,7 @@ export default function Navbar({ user }: NavbarProps) {
         </div>
       </header>
     );
+  }
 
   return (
     <nav className="mx-6 my-4 flex-initial rounded-md bg-gray-700 p-4">
@@ -146,11 +146,7 @@ export default function Navbar({ user }: NavbarProps) {
                     <button
                       className="w-full text-left"
                       onClick={async () => {
-                        const data = await signOut({
-                          redirect: false,
-                          callbackUrl: "/",
-                        });
-                        router.push(data.url);
+                        await logoutUser();
                         router.refresh();
                         reset();
                         toast({
@@ -160,7 +156,7 @@ export default function Navbar({ user }: NavbarProps) {
                         });
                       }}
                     >
-                      Sign out
+                      Wyloguj się
                     </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

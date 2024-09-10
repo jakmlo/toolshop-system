@@ -1,15 +1,13 @@
-import AddContractorDialog from "@/components/misc/Dialogs/EditContractorDialog";
 import { Button } from "@/components/ui/button";
 import { columns } from "@/components/utils/columns/contractor-columns";
 import { DataTable } from "@/components/utils/data-table";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export default async function Contractors() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const user = await prisma.user.findUnique({
     where: {

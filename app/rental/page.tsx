@@ -1,11 +1,10 @@
 import { RentalForm } from "@/components/misc/Rental/RentalForm";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export default async function Rental() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const user = await prisma.user.findUnique({
     where: {
       id: session?.user.id,

@@ -24,7 +24,7 @@ export const activateUser: ActivateUserFunction = async (token) => {
   if (!user) {
     return "userNotExist";
   }
-  if (user.verified) {
+  if (user.emailVerified) {
     return "alreadyActivated";
   }
 
@@ -33,7 +33,7 @@ export const activateUser: ActivateUserFunction = async (token) => {
       email: existingToken.email,
     },
     data: {
-      verified: true,
+      emailVerified: new Date(),
     },
   });
 

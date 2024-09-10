@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { authOptions } from "@/lib/auth";
 import {
   createCheckoutLink,
   createCustomerIfNull,
@@ -7,11 +6,11 @@ import {
   hasSubscription,
 } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 export default async function Settings() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   await createCustomerIfNull();
 

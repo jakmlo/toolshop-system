@@ -1,5 +1,4 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth";
+import { auth } from "@/auth";
 import Stripe from "stripe";
 import { prisma } from "./prisma";
 
@@ -8,7 +7,7 @@ export const stripe = new Stripe(String(process.env.STRIPE_SECRET_KEY), {
 });
 
 export async function hasSubscription() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) {
     const user = await prisma.user.findFirst({
@@ -57,7 +56,7 @@ export async function createCheckoutLink(customer: string) {
 }
 
 export async function createCustomerIfNull() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) {
     try {

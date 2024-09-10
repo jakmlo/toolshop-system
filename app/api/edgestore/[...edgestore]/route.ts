@@ -1,17 +1,16 @@
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { initEdgeStore } from "@edgestore/server";
 import {
   CreateContextOptions,
   createEdgeStoreNextHandler,
 } from "@edgestore/server/adapters/next/app";
-import { getServerSession } from "next-auth";
 
 type Context = {
   id: string;
 };
 
 async function createContext({ req }: CreateContextOptions): Promise<Context> {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   return {
     id: session?.user.id as string,
   };

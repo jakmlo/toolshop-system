@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 import Sidebar from "../components/misc/Sidebar";
 import { NextAuthProvider } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import Navbar from "@/components/misc/Navbar";
 import { prisma } from "@/lib/prisma";
 import { EdgeStoreProvider } from "@/lib/edgestore";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Toolshop system",
@@ -19,7 +18,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   let user;
   if (session) {
     user = await prisma.user.findUnique({
@@ -38,7 +37,7 @@ export default async function RootLayout({
           <EdgeStoreProvider>
             {!!session && <Sidebar />}
             <div className="h-screen w-full flex-col">
-              {!!session && <Navbar user={user} />}
+              {!!session && <Navbar user={user} session={session} />}
               {children}
             </div>
             <Toaster />

@@ -6,12 +6,16 @@ import { SingleImageDropzone } from "../utils/single-image-dropzone";
 import { addUserImage } from "@/lib/actions/profile/actions";
 import { useSession } from "next-auth/react";
 import { toast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function UploadFile() {
   const [file, setFile] = React.useState<File>();
   const [progress, setProgress] = React.useState(0);
   const { edgestore } = useEdgeStore();
   const { data: session, update } = useSession();
+  const router = useRouter();
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/gif"];
 
   return (
     <div>
@@ -20,7 +24,25 @@ export default function UploadFile() {
         height={200}
         value={file}
         onChange={(file) => {
-          setFile(file);
+          if (file) {
+            if (file.size > MAX_FILE_SIZE) {
+              toast({
+                variant: "destructive",
+                title: "File is too large",
+                description: "Please upload a file smaller than 5MB.",
+              });
+              return;
+            }
+            if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+              toast({
+                variant: "destructive",
+                title: "Invalid file type",
+                description: "Please upload a JPEG, PNG, or GIF image.",
+              });
+              return;
+            }
+            setFile(file);
+          }
         }}
       />
       <div className="h-[6px] w-44 overflow-hidden rounded border">
@@ -47,21 +69,22 @@ export default function UploadFile() {
                 title: "Avatar dodany",
                 variant: "default",
               });
-              update({
+              await update({
                 ...session,
                 user: { ...session?.user, image: res.url },
               });
+              router.refresh();
             } else {
               toast({
                 variant: "destructive",
                 title: "Error",
-                description: resAction?.status,
+                description: resAction?.message,
               });
             }
           }
         }}
       >
-        Upload
+        Wyślij plik
       </button>
     </div>
   );

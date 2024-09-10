@@ -9,7 +9,7 @@ import {
   ResetPasswordSchema,
 } from "@/lib/validations/user.schema";
 import { renderAsync } from "@react-email/render";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import ResetPasswordTemplate from "@/lib/emailTemplates/resetPassword";
 import { ZodError } from "zod";
 import { generatePasswordResetToken } from "@/lib/token";

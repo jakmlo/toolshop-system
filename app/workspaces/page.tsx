@@ -1,14 +1,12 @@
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { Plus } from "lucide-react";
 import { CreateOrganizationDialog } from "@/components/misc/Dialogs/CreateOrganizationDialog";
 import Link from "next/link";
 import { JoinOrganizationDialog } from "@/components/misc/Dialogs/JoinOrganizationDialog";
+import { auth } from "@/auth";
 
 export default async function Workspaces() {
-  const session = await getServerSession(authOptions);
-
+  const session = await auth();
   if (session) {
     const user = await prisma.user.findUnique({
       where: { id: session?.user.id },

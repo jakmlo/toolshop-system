@@ -1,11 +1,10 @@
 import AddEquipmentForm from "@/components/misc/Forms/AddEquipmentForm";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export default async function AddEquipment() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const user = await prisma.user.findUnique({
     where: {

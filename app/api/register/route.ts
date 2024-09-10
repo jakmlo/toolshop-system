@@ -7,7 +7,7 @@ import {
   RegisterUserInput,
   RegisterUserSchema,
 } from "@/lib/validations/user.schema";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { generateVerificationToken } from "@/lib/token";

@@ -13,7 +13,7 @@ export async function sendMail({
 
   try {
     await resend.emails.send({
-      from: process.env.EMAIL_FROM as string,
+      from: `Toolshop System <${process.env.EMAIL_FROM}>` as string,
       to,
       subject,
       html: body,

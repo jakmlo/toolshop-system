@@ -1,6 +1,5 @@
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function RentalDetails({
@@ -8,7 +7,7 @@ export default async function RentalDetails({
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const user = await prisma.user.findUnique({
     where: {
       id: session?.user.id,

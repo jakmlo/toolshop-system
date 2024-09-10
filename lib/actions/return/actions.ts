@@ -1,12 +1,11 @@
 "use server";
 
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import {
   ReturnInput,
   ReturnInputSchema,
 } from "@/lib/validations/return.schema";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
 export const returnAction = async (data: ReturnInput) => {
@@ -24,7 +23,7 @@ export const returnAction = async (data: ReturnInput) => {
       };
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {

@@ -1,12 +1,11 @@
 import { DataTable } from "@/components/utils/data-table";
 import { columns } from "@/components/utils/columns/user-columns";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export default async function Seats() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const user = await prisma.user.findUnique({
     where: {
       id: session?.user.id,
