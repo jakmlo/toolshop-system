@@ -26,8 +26,8 @@ export async function forgotPassword(data: ForgotPasswordInput) {
 
     if (!user) {
       return {
-        status: 404,
-        message: "User not found",
+        status: 400,
+        message: "Error Occured",
       };
     }
     const passwordResetToken = await generatePasswordResetToken(user.email);
