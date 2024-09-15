@@ -24,7 +24,7 @@ export const generateTwoFactorToken = async (email: string) => {
 };
 
 export const generateVerificationToken = async (email: string) => {
-  const token = randomBytes(32).toString();
+  const token = randomBytes(64).toString("base64url");
   const expires = new Date(new Date().getTime() + 300 * 1000);
 
   const existingToken = await prisma.verificationToken.findFirst({
@@ -54,7 +54,7 @@ export const generateVerificationToken = async (email: string) => {
 };
 
 export const generatePasswordResetToken = async (email: string) => {
-  const token = randomBytes(32).toString();
+  const token = randomBytes(64).toString("base64url");
   const expires = new Date(new Date().getTime() + 300 * 1000);
 
   const existingToken = await prisma.passwordResetToken.findFirst({
