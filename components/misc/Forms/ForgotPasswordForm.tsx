@@ -30,21 +30,13 @@ export default function ForgotPasswordForm() {
   const onSubmit: SubmitHandler<ForgotPasswordInput> = async (data) => {
     try {
       const res = await forgotPassword(data);
-      if (res?.status === 404) {
-        toast({
-          title: "Użytkownik nie istnieje",
-          description: "Wprowadź swój adres e-mail",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Zmiana hasła",
-          description:
-            "Wiadomość z linkiem do zmiany hasła została wysłana na twój adres e-mail",
-          variant: "default",
-        });
-        form.reset();
-      }
+      toast({
+        title: "Prośba o zmianę hasła",
+        description:
+          "Jeśli konto istnieje, wiadomość z linkiem do zmiany hasła zostanie wysłana na twój adres e-mail",
+        variant: "default",
+      });
+      form.reset();
     } catch (error: any) {
       toast({
         title: "Błąd",

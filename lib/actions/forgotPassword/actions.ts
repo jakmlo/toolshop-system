@@ -66,7 +66,7 @@ export const resetPassword = async (
       },
     });
 
-    if (!user) return { status: 404, message: "User not found" };
+    if (!user) return { status: 400, message: "Error occured" };
 
     const hashedPassword = await hash(data.password, 10);
 
