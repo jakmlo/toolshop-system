@@ -47,10 +47,9 @@ export default function LoginForm() {
       const userVerified = await checkUserVerified(data.email);
       if (!userVerified) {
         toast({
-          title: "Zweryfikuj adres e-mail",
-          description:
-            "Na podany adres e-mail został wysłany link weryfikujący",
-          variant: "default",
+          title: "Nieprawidłowy login i/lub hasło",
+          description: "Pamiętaj o aktywacji konta przed pierwszym logowaniem",
+          variant: "destructive",
         });
         return null;
       }
@@ -71,13 +70,13 @@ export default function LoginForm() {
       }
       if (res?.error === "Nieprawidłowe dane logowania.") {
         toast({
-          title: res.error,
-          description: "Spróbuj ponownie",
+          title: "Nieprawidłowy login i/lub hasło",
+          description: "Pamiętaj o aktywacji konta przed pierwszym logowaniem",
           variant: "destructive",
         });
       } else {
         toast({
-          title: res?.error,
+          title: "Coś poszło nie tak",
           variant: "destructive",
         });
       }

@@ -15,7 +15,7 @@ import { getTwoFactorConfirmationByUserId } from "@/lib/data/twoFactorConfirmati
 
 const checkUserSchema = z.string().email();
 
-export const checkUserVerified = async (email: string): Promise<boolean> => {
+export const checkUserVerified = async (email: string) => {
   try {
     checkUserSchema.parse(email);
     const user = await prisma.user.findUnique({
